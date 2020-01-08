@@ -11,7 +11,7 @@ import mate.academy.internetshop.model.Order;
 
 @Dao
 public class OrderDaoImp implements OrderDao {
-    static Long generatedOrderId = 0L;
+    private static Long generatedOrderId = 0L;
 
     @Override
     public Order create(Order order) {

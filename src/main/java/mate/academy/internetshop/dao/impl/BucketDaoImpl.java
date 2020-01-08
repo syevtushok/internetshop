@@ -10,7 +10,7 @@ import mate.academy.internetshop.model.Bucket;
 
 @Dao
 public class BucketDaoImpl implements BucketDao {
-    static Long generatedBucketId = 0L;
+   private static Long generatedBucketId = 0L;
 
     @Override
     public Bucket create(Bucket bucket) {

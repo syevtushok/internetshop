@@ -11,7 +11,7 @@ import mate.academy.internetshop.model.Item;
 
 @Dao
 public class ItemDaoImp implements ItemDao {
-    static Long generatedItemId = 0L;
+    private static Long generatedItemId = 0L;
 
     @Override
     public Item create(Item item) {

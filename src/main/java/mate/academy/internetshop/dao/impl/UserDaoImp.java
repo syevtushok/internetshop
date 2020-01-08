@@ -11,7 +11,7 @@ import mate.academy.internetshop.model.User;
 
 @Dao
 public class UserDaoImp implements UserDao {
-    static Long generatedUserId = 0L;
+    private static Long generatedUserId = 0L;
 
     @Override
     public User create(User user) {

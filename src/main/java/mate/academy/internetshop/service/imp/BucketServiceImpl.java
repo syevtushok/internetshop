@@ -13,7 +13,7 @@ import mate.academy.internetshop.service.BucketService;
 @Service
 public class BucketServiceImpl implements BucketService {
     @Inject
-    public static BucketDao bucketDao;
+    private static BucketDao bucketDao;
 
     @Override
     public Bucket create(Bucket bucket) {

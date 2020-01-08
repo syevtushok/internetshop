@@ -16,9 +16,9 @@ import mate.academy.internetshop.service.OrderService;
 @Service
 public class OrderServiceImpl implements OrderService {
     @Inject
-    static OrderDao orderDao;
+    private static OrderDao orderDao;
     @Inject
-    static UserDao userDao;
+    private static UserDao userDao;
 
     @Override
     public Order create(Order item) {
