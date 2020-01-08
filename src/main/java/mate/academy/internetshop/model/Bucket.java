@@ -5,39 +5,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bucket {
-    private User user;
+    private Long userId;
     private List<Item> items;
     private Long bucketId;
-    private BigDecimal sumOfMoney;
+    private BigDecimal price;
 
     public Bucket() {
         items = new ArrayList<>();
     }
 
-    public BigDecimal getSumOfMoney() {
-        return sumOfMoney;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setSumOfMoney(BigDecimal sumOfMoney) {
-        this.sumOfMoney = sumOfMoney;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     @Override
     public String toString() {
         return "Bucket{"
-                + "user=" + user
+                + "user=" + userId
                 + ", items=" + items
                 + ", bucketId=" + bucketId
-                + ", sumOfMoney=" + sumOfMoney
+                + ", sumOfMoney=" + price
                 + '}';
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public List<Item> getItems() {

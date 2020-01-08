@@ -1,8 +1,8 @@
 package mate.academy.internetshop.service.imp;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.dao.UserDao;
@@ -53,13 +53,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getUserOrders(User user) {
-        List<Order> orderList = new ArrayList<>();
-        for (Order order : orderDao.getAll()) {
-            if (order.getUserId().equals(user.getId())) {
-                orderList.add(order);
-            }
-        }
-        return orderList;
+        return getAllOrders().stream()
+                .filter(order -> order.getUserId().equals(user.getId()))
+                .collect(Collectors.toList());
     }
 
     @Override

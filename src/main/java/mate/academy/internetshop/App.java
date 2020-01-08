@@ -115,7 +115,7 @@ public class App {
 
         User user = new User();
         user.setLogin("admin");
-        bucket1.setUser(user);
+        bucket1.setUserId(user.getId());
         System.out.println("Update bucket with id 1: " + bucketService.update(bucket1));
         System.out.println("Get all items " + bucketService.getAllItems(bucket));
         System.out.println("Get size:" + Storage.buckets.size());

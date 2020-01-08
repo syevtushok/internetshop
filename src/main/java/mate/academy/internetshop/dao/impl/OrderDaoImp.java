@@ -32,15 +32,10 @@ public class OrderDaoImp implements OrderDao {
     @Override
     public Order update(Order order) {
         Order updateOrder = get(order.getOrderId()).get();
-        updateOrder.setItemList(order.getItemList());
+        updateOrder.setItems(order.getItems());
         updateOrder.setSumOfMoney(order.getSumOfMoney());
         updateOrder.setUserId(order.getUserId());
         return order;
-    }
-
-    @Override
-    public List<Order> getAllOrders() {
-        return Storage.orders;
     }
 
     @Override
@@ -59,7 +54,7 @@ public class OrderDaoImp implements OrderDao {
     }
 
     @Override
-    public List<Order> getAll() {
+    public List<Order> getAllOrders() {
         return Storage.orders;
     }
 }

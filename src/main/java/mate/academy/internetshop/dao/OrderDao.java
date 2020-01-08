@@ -16,8 +16,6 @@ public interface OrderDao {
 
     boolean delete(Order item);
 
-    List<Order> getAll();
-
     List<Order> getAllOrders();
 
 }

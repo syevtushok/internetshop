@@ -10,7 +10,7 @@ import mate.academy.internetshop.model.Bucket;
 
 @Dao
 public class BucketDaoImpl implements BucketDao {
-   private static Long generatedBucketId = 0L;
+    private static Long generatedBucketId = 0L;
 
     @Override
     public Bucket create(Bucket bucket) {
@@ -33,9 +33,14 @@ public class BucketDaoImpl implements BucketDao {
     public Bucket update(Bucket bucket) {
         Bucket updatedBucked = get(bucket.getBucketId()).get();
         updatedBucked.setBucketId(bucket.getBucketId());
-        updatedBucked.setUser(bucket.getUser());
+        updatedBucked.setUserId(bucket.getUserId());
         updatedBucked.setItems(bucket.getItems());
         return bucket;
+    }
+
+    @Override
+    public boolean delete(Bucket bucket) {
+        return Storage.buckets.remove(bucket.getBucketId());
     }
 
     @Override
@@ -46,10 +51,5 @@ public class BucketDaoImpl implements BucketDao {
                 .orElseThrow(() -> new NoSuchElementException(
                         "Can't find bucket with id " + bucketId)));
         return Storage.buckets.remove(bucket.get());
-    }
-
-    @Override
-    public boolean delete(Bucket bucket) {
-        return Storage.buckets.remove(bucket.getBucketId());
     }
 }
