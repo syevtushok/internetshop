@@ -39,7 +39,7 @@ public class OrderDaoImp implements OrderDao {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteById(Long id) {
         Optional<Order> deletedOrder = Optional.ofNullable(Storage.orders.stream()
                 .filter(order -> order.getOrderId().equals(id))
                 .findFirst()
@@ -54,7 +54,7 @@ public class OrderDaoImp implements OrderDao {
     }
 
     @Override
-    public List<Order> getAllOrders() {
+    public List<Order> getAll() {
         return Storage.orders;
     }
 }

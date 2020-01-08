@@ -31,17 +31,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
-        userDao.delete(id);
+    public boolean delete(User user) {
+        return userDao.delete(user);
     }
 
     @Override
-    public void delete(User user) {
-        userDao.delete(user);
+    public boolean deleteById(Long id) {
+        return userDao.deleteById(id);
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+    public List<User> getAll() {
+        return userDao.getAll();
     }
 }

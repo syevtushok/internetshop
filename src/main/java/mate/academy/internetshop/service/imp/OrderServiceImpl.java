@@ -36,13 +36,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void delete(Long id) {
-        orderDao.delete(id);
+    public boolean delete(Order item) {
+        return orderDao.delete(item);
     }
 
     @Override
-    public void delete(Order item) {
-        orderDao.delete(item);
+    public boolean deleteById(Long id) {
+        return orderDao.deleteById(id);
     }
 
     @Override
@@ -53,13 +53,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getUserOrders(User user) {
-        return getAllOrders().stream()
+        return getAll().stream()
                 .filter(order -> order.getUserId().equals(user.getId()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Order> getAllOrders() {
-        return orderDao.getAllOrders();
+    public List<Order> getAll() {
+        return orderDao.getAll();
     }
 }

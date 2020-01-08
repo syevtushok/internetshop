@@ -30,8 +30,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public boolean delete(Long id) {
-        return itemDao.delete(id);
+    public boolean deleteById(Long id) {
+        return itemDao.deleteById(id);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getAllItems() {
-        return itemDao.getAllItems();
+    public List<Item> getAll() {
+        return itemDao.getAll();
     }
 }
