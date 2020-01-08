@@ -6,5 +6,4 @@ import mate.academy.internetshop.model.Item;
 
 public interface ItemService extends GenericService<Item, Long> {
     List<Item> getAll();
-
 }
