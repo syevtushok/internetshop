@@ -39,7 +39,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteById(Long id) {
         Optional<User> deletedUser = Optional.ofNullable(Storage.users.stream()
                 .filter(user -> user.getId().equals(id))
                 .findFirst()
@@ -54,7 +54,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         return Storage.users;
     }
 }

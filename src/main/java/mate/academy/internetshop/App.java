@@ -60,10 +60,10 @@ public class App {
         order2.setUserId(user.getId());
         System.out.println("Update order1: " + orderService.update(order1));
         System.out.println("All user's orders:" + orderService.getUserOrders(user));
-        System.out.println("All orders: " + orderService.getAllOrders());
-        orderService.delete(order1.getOrderId());
+        System.out.println("All orders: " + orderService.getAll());
+        orderService.deleteById(order1.getOrderId());
         orderService.delete(order2);
-        System.out.println("All orders: " + orderService.getAllOrders());
+        System.out.println("All orders: " + orderService.getAll());
     }
 
     private static void userTest() {
@@ -74,13 +74,13 @@ public class App {
         System.out.println("Create user2 " + userService.create(user2));
         System.out.println("Get user: " + userService.get(user1.getId()));
         System.out.println("Get user: " + userService.get(user2.getId()));
-        System.out.println("All users:" + userService.getAllUsers());
+        System.out.println("All users:" + userService.getAll());
         user2.setLogin("moderator's friend");
         System.out.println("Update user2 " + userService.update(user2));
-        System.out.println("All users:" + userService.getAllUsers());
+        System.out.println("All users:" + userService.getAll());
         userService.delete(user1);
-        userService.delete(user2.getId());
-        System.out.println("All users:" + userService.getAllUsers());
+        userService.deleteById(user2.getId());
+        System.out.println("All users:" + userService.getAll());
     }
 
     private static void itemTest() {
@@ -92,10 +92,10 @@ public class App {
         System.out.println("Get item: " + itemService.get(item1.getItemId()));
         item.setName("dalwekd");
         System.out.println("Update item:" + itemService.update(item));
-        System.out.println("All items " + itemService.getAllItems());
-        System.out.println(itemService.delete(item.getItemId()));
+        System.out.println("All items " + itemService.getAll());
+        System.out.println(itemService.deleteById(item.getItemId()));
         System.out.println(itemService.delete(item1));
-        System.out.println(itemService.getAllItems());
+        System.out.println(itemService.getAll());
     }
 
     private static void bucketTests() {
@@ -119,7 +119,7 @@ public class App {
         System.out.println("Update bucket with id 1: " + bucketService.update(bucket1));
         System.out.println("Get all items " + bucketService.getAllItems(bucket));
         System.out.println("Get size:" + Storage.buckets.size());
-        System.out.println("Delete bucket with id 1 " + bucketService.delete(1L));
+        System.out.println("Delete bucket with id 1 " + bucketService.deleteById(1L));
         System.out.println("Get size:" + Storage.buckets.size());
 
         System.out.println("Get all items bucket with id 0" + bucketService.getAllItems(bucket));

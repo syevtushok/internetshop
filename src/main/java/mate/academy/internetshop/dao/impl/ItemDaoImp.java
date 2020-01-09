@@ -38,7 +38,7 @@ public class ItemDaoImp implements ItemDao {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteById(Long id) {
         Optional<Item> deletedItem = Optional.ofNullable(Storage.items.stream()
                 .filter(item -> item.getItemId().equals(id))
                 .findFirst()
@@ -53,7 +53,7 @@ public class ItemDaoImp implements ItemDao {
     }
 
     @Override
-    public List<Item> getAllItems() {
+    public List<Item> getAll() {
         return Storage.items;
     }
 }
