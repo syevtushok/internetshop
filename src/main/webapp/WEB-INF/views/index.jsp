@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ggazi
-  Date: 08-Jan-20
-  Time: 3:08 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -12,5 +5,10 @@
 </head>
 <body>
 <h1 align="middle">Hello, World!</h1>
+<p><a href="register">Registration</a></p>
+<p><a href="addItems">Add items</a></p>
+<p><a href="allItems">All items</a></p>
+<p><a href="allUsers">All Users</a></p>
+<p><a href="bucket">Show items in bucket</a></p>
 </body>
 </html>
