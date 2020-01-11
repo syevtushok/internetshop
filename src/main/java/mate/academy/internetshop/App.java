@@ -110,8 +110,8 @@ public class App {
         System.out.println("Create Bucket: " + bucketService.create(bucket1));
         System.out.println("Get bucket with id 0:" + bucketService.get(0L));
         System.out.println("Get bucket with id 1:" + bucketService.get(1L));
-        bucketService.addItem(bucket, java.util.Optional.of(item1));
-        bucketService.addItem(bucket, java.util.Optional.of(item2));
+        bucketService.addItem(bucket, item1);
+        bucketService.addItem(bucket, item2);
 
         User user = new User();
         user.setLogin("admin");

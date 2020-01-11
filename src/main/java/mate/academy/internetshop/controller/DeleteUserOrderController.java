@@ -1,7 +1,6 @@
 package mate.academy.internetshop.controller;
 
 import java.io.IOException;
-import java.util.Optional;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +20,9 @@ public class DeleteUserOrderController extends HttpServlet {
             throws IOException {
 
         String orderId = req.getParameter("order_id");
-        Optional<Order> order = orderService.get(Long.valueOf(orderId));
-        orderService.delete(order.get());
+        Order order = orderService.get(Long.valueOf(orderId));
+        orderService.delete(order);
 
-        resp.sendRedirect(req.getContextPath() + "/orders?user_id=" + order.get().getUserId());
+        resp.sendRedirect(req.getContextPath() + "/orders?user_id=" + order.getUserId());
     }
 }

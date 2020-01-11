@@ -1,7 +1,6 @@
 package mate.academy.internetshop.controller;
 
 import java.io.IOException;
-import java.util.Optional;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +24,9 @@ public class DeleteItemFromBucketController extends HttpServlet {
             throws IOException {
         String bucketId = req.getParameter("bucket_id");
         String itemId = req.getParameter("item_id");
-        Optional<Bucket> bucket = bucketService.get(Long.valueOf(bucketId));
-        Optional<Item> item = itemService.get(Long.valueOf(itemId));
-        bucketService.deleteItem(bucket.get(), item.get());
+        Bucket bucket = bucketService.get(Long.valueOf(bucketId));
+        Item item = itemService.get(Long.valueOf(itemId));
+        bucketService.deleteItem(bucket, item);
         resp.sendRedirect(req.getContextPath() + "/bucket");
     }
 }

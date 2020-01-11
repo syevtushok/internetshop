@@ -56,4 +56,11 @@ public class BucketDaoImpl implements BucketDao {
     public List<Bucket> getAll() {
         return Storage.buckets;
     }
+
+    @Override
+    public Optional<Bucket> getByUserId(Long userId) {
+        return Storage.buckets.stream()
+                .filter(bucket1 -> bucket1.getUserId().equals(userId))
+                .findFirst();
+    }
 }

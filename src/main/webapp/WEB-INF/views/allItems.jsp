@@ -29,7 +29,7 @@ All Items :
                 <c:out value="${item.price}"/>
             </td>
             <td>
-                <a href="${pageContext.request.contextPath}/addItemInBucket?item_id=${item.itemId}">Add in bucket</a>
+                <a href="${pageContext.request.contextPath}/addItemToBucket?item_id=${item.itemId}">Add in bucket</a>
             </td>
             <td>
                 <a href="${pageContext.request.contextPath}/deleteItem?item_id=${item.itemId}">DELETE</a>

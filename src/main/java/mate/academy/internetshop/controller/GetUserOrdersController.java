@@ -1,7 +1,6 @@
 package mate.academy.internetshop.controller;
 
 import java.io.IOException;
-import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,13 +19,13 @@ public class GetUserOrdersController extends HttpServlet {
     @Inject
     private static UserService userService;
 
-    private static Long userId = 1L;
+    private static Long userId = 0L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        Optional<User> user = userService.get(userId);
-        req.setAttribute("orders", orderService.getUserOrders(user.get()));
+        User user = userService.get(userId);
+        req.setAttribute("orders", orderService.getUserOrders(user));
         req.getRequestDispatcher("/WEB-INF/views/orders.jsp").forward(req, resp);
     }
 }

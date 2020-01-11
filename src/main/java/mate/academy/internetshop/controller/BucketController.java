@@ -16,19 +16,13 @@ public class BucketController extends HttpServlet {
     @Inject
     private static BucketService bucketService;
 
-    private static Long userId = 1L;
+    private static Long userId = 0L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        Bucket bucket = bucketService.getAll()
-                .stream()
-                .filter(b -> b.getUserId().equals(userId))
-                .findFirst()
-                .orElse(bucketService.create(new Bucket(userId)));
-
+        Bucket bucket = bucketService.getByUserId(userId);
         req.setAttribute("bucket", bucket);
-
         req.getRequestDispatcher("/WEB-INF/views/bucket.jsp").forward(req, resp);
     }
 }
