@@ -22,12 +22,10 @@ public class BucketDaoImpl implements BucketDao {
 
     @Override
     public Optional<Bucket> get(Long bucketId) {
-        return Optional.ofNullable(Storage.buckets
+        return Storage.buckets
                 .stream()
                 .filter(bucket -> bucket.getBucketId().equals(bucketId))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException(
-                        "Can't find bucket with id " + bucketId)));
+                .findFirst();
     }
 
     @Override
@@ -57,5 +55,12 @@ public class BucketDaoImpl implements BucketDao {
     @Override
     public List<Bucket> getAll() {
         return Storage.buckets;
+    }
+
+    @Override
+    public Optional<Bucket> getByUserId(Long userId) {
+        return Storage.buckets.stream()
+                .filter(bucket1 -> bucket1.getUserId().equals(userId))
+                .findFirst();
     }
 }

@@ -14,6 +14,11 @@ public class Bucket {
         items = new ArrayList<>();
     }
 
+    public Bucket(Long userId) {
+        this.userId = userId;
+        items = new ArrayList<>();
+    }
+
     public BigDecimal getPrice() {
         return price;
     }

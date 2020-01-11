@@ -1,7 +1,6 @@
 package mate.academy.internetshop.service.imp;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import mate.academy.internetshop.dao.OrderDao;
@@ -26,8 +25,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<Order> get(Long id) {
-        return orderDao.get(id);
+    public Order get(Long id) {
+        return orderDao.get(id).get();
     }
 
     @Override

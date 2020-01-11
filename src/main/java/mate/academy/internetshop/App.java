@@ -99,13 +99,13 @@ public class App {
     }
 
     private static void bucketTests() {
-        Bucket bucket = new Bucket();
+        Bucket bucket = new Bucket(1L);
         Item item1 = new Item("Polish-1231", BigDecimal.valueOf(99.9));
         Item item2 = new Item("ASK-434", BigDecimal.valueOf(2121));
         itemService.create(item1);
         itemService.create(item2);
 
-        Bucket bucket1 = new Bucket();
+        Bucket bucket1 = new Bucket(1L);
         System.out.println("Create Bucket: " + bucketService.create(bucket));
         System.out.println("Create Bucket: " + bucketService.create(bucket1));
         System.out.println("Get bucket with id 0:" + bucketService.get(0L));
@@ -117,13 +117,15 @@ public class App {
         user.setLogin("admin");
         bucket1.setUserId(user.getId());
         System.out.println("Update bucket with id 1: " + bucketService.update(bucket1));
-        System.out.println("Get all items " + bucketService.getAllItems(bucket));
+        System.out.println("Get all items " + bucketService.getAllItems(bucket.getBucketId()));
         System.out.println("Get size:" + Storage.buckets.size());
         System.out.println("Delete bucket with id 1 " + bucketService.deleteById(1L));
         System.out.println("Get size:" + Storage.buckets.size());
 
-        System.out.println("Get all items bucket with id 0" + bucketService.getAllItems(bucket));
+        System.out.println("Get all items bucket with id 0"
+                + bucketService.getAllItems(bucket.getBucketId()));
         bucketService.clear(bucket);
-        System.out.println("Get all items bucket with id 0" + bucketService.getAllItems(bucket));
+        System.out.println("Get all items bucket with id 0"
+                + bucketService.getAllItems(bucket.getBucketId()));
     }
 }
