@@ -8,17 +8,20 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import mate.academy.internetshop.App;
 import mate.academy.internetshop.dao.UserDao;
+import org.apache.log4j.Logger;
 
 public class Injector {
+    static final Logger logger = Logger.getLogger(App.class);
     private static final String PROJECT_MAIN_PACKAGE = "mate.academy.internetshop";
-    private static List<Class> classes = new ArrayList<>();
+    private static List<Class<?>> classes = new ArrayList<>();
 
     static {
         try {
             classes.addAll(getClasses(PROJECT_MAIN_PACKAGE));
         } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 
@@ -27,7 +30,7 @@ public class Injector {
     }
 
     public static void injectDependency() throws IllegalAccessException {
-        for (Class certainClass : classes) {
+        for (Class<?> certainClass : classes) {
             for (Field field : certainClass.getDeclaredFields()) {
                 if (field.getDeclaredAnnotation(Inject.class) != null) {
                     Object implementation = AnnotatedClassMap.getImplementation(field.getType());
@@ -41,7 +44,7 @@ public class Injector {
         }
     }
 
-    private static List<Class> getClasses(String packageName)
+    private static List<Class<?>> getClasses(String packageName)
             throws IOException, ClassNotFoundException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         assert classLoader != null;
@@ -52,16 +55,16 @@ public class Injector {
             URL resource = resources.nextElement();
             dirs.add(new File(resource.getFile()));
         }
-        ArrayList<Class> classes = new ArrayList<Class>();
+        ArrayList<Class<?>> classes = new ArrayList<>();
         for (File directory : dirs) {
             classes.addAll(findClasses(directory, packageName));
         }
         return classes;
     }
 
-    private static List<Class> findClasses(File directory, String packageName)
+    private static List<Class<?>> findClasses(File directory, String packageName)
             throws ClassNotFoundException {
-        List<Class> classes = new ArrayList<Class>();
+        List<Class<?>> classes = new ArrayList<>();
         if (!directory.exists()) {
             return classes;
         }
