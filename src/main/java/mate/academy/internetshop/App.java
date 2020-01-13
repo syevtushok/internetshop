@@ -110,7 +110,7 @@ public class App {
         logger.info("Create Bucket: " + bucketService.create(bucket));
         logger.info("Create Bucket: " + bucketService.create(bucket1));
         logger.info("Get bucket with id 0:" + bucketService.get(0L));
-        logger.info("Get bucket with id 1:" + bucketService.get(1L));
+        logger.info("Get bucket with id 1:" + bucketService.get(11L));
         bucketService.addItem(bucket, item1);
         bucketService.addItem(bucket, item2);
 

@@ -30,7 +30,7 @@ public class BucketDaoImpl implements BucketDao {
 
     @Override
     public Bucket update(Bucket bucket) {
-        Bucket updatedBucked = get(bucket.getBucketId()).get();
+        Bucket updatedBucked = get(bucket.getBucketId()).orElseThrow();
         updatedBucked.setBucketId(bucket.getBucketId());
         updatedBucked.setUserId(bucket.getUserId());
         updatedBucked.setItems(bucket.getItems());
@@ -39,17 +39,17 @@ public class BucketDaoImpl implements BucketDao {
 
     @Override
     public boolean deleteById(Long bucketId) {
-        Optional<Bucket> bucket = Optional.ofNullable(Storage.buckets.stream()
+        Bucket bucket = Storage.buckets.stream()
                 .filter(bucket1 -> bucket1.getBucketId().equals(bucketId))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException(
-                        "Can't find bucket with id " + bucketId)));
-        return Storage.buckets.remove(bucket.get());
+                        "Can't find bucket with id " + bucketId));
+        return Storage.buckets.remove(bucket);
     }
 
     @Override
     public boolean delete(Bucket bucket) {
-        return Storage.buckets.remove(bucket.getBucketId());
+        return Storage.buckets.remove(bucket);
     }
 
     @Override
