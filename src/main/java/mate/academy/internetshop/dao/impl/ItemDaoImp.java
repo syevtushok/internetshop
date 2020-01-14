@@ -31,7 +31,7 @@ public class ItemDaoImp implements ItemDao {
 
     @Override
     public Item update(Item item) {
-        Item updatedItem = get(item.getItemId()).get();
+        Item updatedItem = get(item.getItemId()).orElseThrow();
         updatedItem.setName(item.getName());
         updatedItem.setPrice(item.getPrice());
         return item;
@@ -39,12 +39,7 @@ public class ItemDaoImp implements ItemDao {
 
     @Override
     public boolean deleteById(Long id) {
-        Optional<Item> deletedItem = Optional.ofNullable(Storage.items.stream()
-                .filter(item -> item.getItemId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException(
-                        "Can't find item with id " + id)));
-        return Storage.items.remove(deletedItem.get());
+        return Storage.items.removeIf(item -> item.getItemId().equals(id));
     }
 
     @Override

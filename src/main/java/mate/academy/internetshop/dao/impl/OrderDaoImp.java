@@ -31,7 +31,7 @@ public class OrderDaoImp implements OrderDao {
 
     @Override
     public Order update(Order order) {
-        Order updateOrder = get(order.getOrderId()).get();
+        Order updateOrder = get(order.getOrderId()).orElseThrow();
         updateOrder.setItems(order.getItems());
         updateOrder.setSumOfMoney(order.getSumOfMoney());
         updateOrder.setUserId(order.getUserId());
@@ -40,12 +40,8 @@ public class OrderDaoImp implements OrderDao {
 
     @Override
     public boolean deleteById(Long id) {
-        Optional<Order> deletedOrder = Optional.ofNullable(Storage.orders.stream()
-                .filter(order -> order.getOrderId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException(
-                        "Can't find item with id " + id)));
-        return Storage.orders.remove(deletedOrder.get());
+        return Storage.orders.removeIf(order -> order.getOrderId().equals(id));
+
     }
 
     @Override

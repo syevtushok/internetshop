@@ -30,7 +30,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User update(User user) {
-        User updatedUser = get(user.getId()).get();
+        User updatedUser = get(user.getId()).orElseThrow();
         updatedUser.setName(user.getName());
         updatedUser.setSurname(user.getSurname());
         updatedUser.setLogin(user.getLogin());
@@ -40,12 +40,8 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public boolean deleteById(Long id) {
-        Optional<User> deletedUser = Optional.ofNullable(Storage.users.stream()
-                .filter(user -> user.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException(
-                        "Can't find user with id " + id)));
-        return Storage.users.remove(deletedUser.get());
+        return Storage.users.removeIf(user -> user.getId().equals(id));
+
     }
 
     @Override

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import mate.academy.internetshop.dao.OrderDao;
-import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.Item;
@@ -16,8 +15,6 @@ import mate.academy.internetshop.service.OrderService;
 public class OrderServiceImpl implements OrderService {
     @Inject
     private static OrderDao orderDao;
-    @Inject
-    private static UserDao userDao;
 
     @Override
     public Order create(Order item) {
@@ -26,7 +23,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order get(Long id) {
-        return orderDao.get(id).get();
+        return orderDao.get(id).orElseThrow();
     }
 
     @Override
