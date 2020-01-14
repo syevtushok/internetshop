@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.service.ItemService;
 
-@WebServlet("/deleteItem")
+@WebServlet("/servlet/deleteItem")
 public class DeleteItemController extends HttpServlet {
     @Inject
     private static ItemService itemService;
@@ -19,6 +19,6 @@ public class DeleteItemController extends HttpServlet {
             throws IOException {
         String item = req.getParameter("item_id");
         itemService.deleteById(Long.valueOf(item));
-        resp.sendRedirect(req.getContextPath() + "/allItems");
+        resp.sendRedirect(req.getContextPath() + "/servlet/allItems");
     }
 }

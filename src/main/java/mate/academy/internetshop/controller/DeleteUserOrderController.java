@@ -10,7 +10,7 @@ import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.service.OrderService;
 
-@WebServlet("/deleteUserOrder")
+@WebServlet("/servlet/deleteUserOrder")
 public class DeleteUserOrderController extends HttpServlet {
     @Inject
     private static OrderService orderService;
@@ -23,6 +23,6 @@ public class DeleteUserOrderController extends HttpServlet {
         Order order = orderService.get(Long.valueOf(orderId));
         orderService.delete(order);
 
-        resp.sendRedirect(req.getContextPath() + "/orders?user_id=" + order.getUserId());
+        resp.sendRedirect(req.getContextPath() + "/servlet/orders");
     }
 }
