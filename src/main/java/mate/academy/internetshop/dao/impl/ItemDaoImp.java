@@ -39,12 +39,7 @@ public class ItemDaoImp implements ItemDao {
 
     @Override
     public boolean deleteById(Long id) {
-        Item deletedItem = Storage.items.stream()
-                .filter(item -> item.getItemId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException(
-                        "Can't find item with id " + id));
-        return Storage.items.remove(deletedItem);
+        return Storage.items.removeIf(item -> item.getItemId().equals(id));
     }
 
     @Override

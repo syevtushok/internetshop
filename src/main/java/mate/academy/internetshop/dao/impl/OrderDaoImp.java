@@ -40,12 +40,8 @@ public class OrderDaoImp implements OrderDao {
 
     @Override
     public boolean deleteById(Long id) {
-        Order deletedOrder = Storage.orders.stream()
-                .filter(order -> order.getOrderId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException(
-                        "Can't find item with id " + id));
-        return Storage.orders.remove(deletedOrder);
+        return Storage.orders.removeIf(order -> order.getOrderId().equals(id));
+
     }
 
     @Override
