@@ -16,11 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
-import org.apache.log4j.Logger;
 
 @WebFilter("/servlet/*")
 public class AuthenticationFilter implements Filter {
-    private static final Logger LOGGER = Logger.getLogger(AuthenticationFilter.class);
     @Inject
     private static UserService userService;
 
