@@ -5,7 +5,7 @@
 </head>
 <body>
 Let's create a new item!
-<form action="${pageContext.request.contextPath}/addItems" method="post">
+<form action="${pageContext.request.contextPath}/servlet/addItems" method="post">
     <label for="name"><b>Name of item</b></label>
     <input type="text" placeholder="Enter name of item" name="name" id="name" required>
     <label for="price"><b>Price of item</b></label>

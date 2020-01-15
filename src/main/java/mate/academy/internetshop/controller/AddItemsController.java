@@ -12,7 +12,7 @@ import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.ItemService;
 
-@WebServlet("/addItems")
+@WebServlet("/servlet/addItems")
 public class AddItemsController extends HttpServlet {
     @Inject
     private static ItemService itemService;
@@ -30,6 +30,6 @@ public class AddItemsController extends HttpServlet {
         item.setName(req.getParameter("name"));
         item.setPrice(BigDecimal.valueOf(Long.parseLong(req.getParameter("price"))));
         itemService.create(item);
-        resp.sendRedirect(req.getContextPath() + "/addItems");
+        resp.sendRedirect(req.getContextPath() + "/servlet/addItems");
     }
 }

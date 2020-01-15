@@ -32,7 +32,7 @@
                 <c:out value="${user.surname}"/>
             </td>
             <td>
-                <a href="${pageContext.request.contextPath}/deleteUser?user_id=${user.id}">Delete User</a>
+                <a href="${pageContext.request.contextPath}/servlet/deleteUser?user_id=${user.id}">Delete User</a>
             </td>
         </tr>
     </c:forEach>

@@ -29,15 +29,16 @@ All Items :
                 <c:out value="${item.price}"/>
             </td>
             <td>
-                <a href="${pageContext.request.contextPath}/addItemToBucket?item_id=${item.itemId}">Add in bucket</a>
+                <a href="${pageContext.request.contextPath}/servlet/addItemToBucket?item_id=${item.itemId}">Add in
+                    bucket</a>
             </td>
             <td>
-                <a href="${pageContext.request.contextPath}/deleteItem?item_id=${item.itemId}">DELETE</a>
+                <a href="${pageContext.request.contextPath}/servlet/deleteItem?item_id=${item.itemId}">DELETE</a>
             </td>
         </tr>
     </c:forEach>
 </table>
-<p><a href="bucket">Bucket</a></p>
+<p><a href="servlet/bucket">Bucket</a></p>
 <p><a href="index">Main page</a></p>
 </body>
 </html>
