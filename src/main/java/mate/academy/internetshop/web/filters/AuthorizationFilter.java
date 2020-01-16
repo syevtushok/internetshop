@@ -83,11 +83,6 @@ public class AuthorizationFilter implements Filter {
                 .anyMatch(role -> role.getRoleName().equals(roleName));
     }
 
-    private void processUnAuthenticated(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-        resp.sendRedirect(req.getContextPath() + "/login");
-    }
-
     private void processAuthenticated(
             FilterChain chain, HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
