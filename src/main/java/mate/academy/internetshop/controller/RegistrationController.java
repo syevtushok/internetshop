@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Bucket;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.UserService;
@@ -34,6 +35,7 @@ public class RegistrationController extends HttpServlet {
         user.setName(req.getParameter("name"));
         user.setPassword(req.getParameter("psw"));
         user.setSurname(req.getParameter("surname"));
+        user.addRole(Role.of("USER"));
 
         Bucket bucket = new Bucket();
         bucket.setUserId(user.getId());
