@@ -36,10 +36,6 @@ public class RegistrationController extends HttpServlet {
         user.setPassword(req.getParameter("psw"));
         user.setSurname(req.getParameter("surname"));
         User newUser = userService.create(user);
-        Cookie cookie = new Cookie("MATE", newUser.getToken());
-        resp.addCookie(cookie);
-        HttpSession httpSession = req.getSession(true);
-        httpSession.setAttribute("userId", user.getId());
 
         Bucket bucket = new Bucket();
         bucket.setUserId(user.getId());

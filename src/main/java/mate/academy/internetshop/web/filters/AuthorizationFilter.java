@@ -6,7 +6,6 @@ import static mate.academy.internetshop.model.Role.RoleName.USER;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,42 +49,23 @@ public class AuthorizationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        Cookie[] cookies = req.getCookies();
-        if (cookies == null) {
-            processUnAuthenticated(req, resp);
-            return;
-        }
-
         String requestedUrl = req.getServletPath();
-        Role.RoleName roleName = protectedUrls.get(requestedUrl);
-        if (roleName == null) {
-            processAuthenticated(chain, req, resp);
+        Role.RoleName roleNameAdmin = protectedUrls.get(requestedUrl);
+        Role.RoleName roleNameUser = protectedUrls.get(requestedUrl);
+        if (roleNameAdmin == null
+                && roleNameUser == null) {
+            processDenied(req, resp);
             return;
         }
 
-        String token = null;
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("MATE")) {
-                token = cookie.getValue();
-                break;
-            }
-        }
-
-        if (token == null) {
-            processUnAuthenticated(req, resp);
+        Long userId = (Long) req.getSession().getAttribute("userId");
+        User user = userService.get(userId);
+        if (verifyRole(user, roleNameAdmin)
+                || verifyRole(user, roleNameUser)) {
+            processAuthenticated(chain, req, resp);
         } else {
-            Optional<User> user = userService.getByToken(token);
-            if (user.isPresent()) {
-                if (verifyRole(user.get(), roleName)) {
-                    processAuthenticated(chain, req, resp);
-                } else {
-                    processDenied(req, resp);
-                }
-            } else {
-                processUnAuthenticated(req, resp);
-            }
+            processDenied(req, resp);
         }
-
     }
 
     @Override
