@@ -5,11 +5,13 @@
 </head>
 <body>
 <h1>Hello, World!</h1>
+<p><a href="inject">Magic button - INJECT</a></p>
 <p><a href="login">Sign In</a></p>
 <p><a href="register">Sign Up</a></p>
 <p><a href="servlet/addItems">Add items</a></p>
 <p><a href="allItems">All items</a></p>
 <p><a href="servlet/allUsers">All Users</a></p>
 <p><a href="servlet/bucket">Show items in bucket</a></p>
+<p><a href="logout">Log Out</a></p>
 </body>
 </html>
