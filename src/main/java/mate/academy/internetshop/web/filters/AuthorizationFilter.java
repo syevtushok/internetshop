@@ -14,7 +14,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +23,6 @@ import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 
-@WebFilter("/servlet/*")
 public class AuthorizationFilter implements Filter {
     @Inject
     private static UserService userService;
@@ -32,7 +30,7 @@ public class AuthorizationFilter implements Filter {
     private Map<String, Role.RoleName> protectedUrls = new HashMap<>();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         protectedUrls.put("/servlet/allUsers", ADMIN);
         protectedUrls.put("/servlet/addItems", ADMIN);
         protectedUrls.put("/servlet/deleteItem", ADMIN);
