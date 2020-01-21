@@ -12,7 +12,7 @@ Let's create a new item!
     <input type="text" placeholder="Enter price of item" name="price" id="price" required>
     <button type="submit">Add item</button>
 </form>
-<p><a href="allItems">All items</a></p>
-<p><a href="index">Main page</a></p>
+<p><a href="/internetshop/allItems">All items</a></p>
+<p><a href="/internetshop/index">Main page</a></p>
 </body>
 </html>
