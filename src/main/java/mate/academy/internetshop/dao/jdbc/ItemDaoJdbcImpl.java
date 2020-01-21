@@ -27,26 +27,26 @@ public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
     public Item create(Item item) {
         String name = item.getName();
         BigDecimal price = item.getPrice();
-        String query = "INSERT INTO " + DB_NAME + ".items (name, price) "
-                + "VALUES('" + name + "', " + price + ")";
+        String query = String.format("INSERT INTO %s.items (name, price) VALUES('%s', %f)",
+                DB_NAME, name, price);
         try (Statement statement = connection.createStatement()) {
-            statement.execute(query);
+            statement.executeUpdate(query);
         } catch (SQLException e) {
-            logger.error("Cannot create item\n" + e);
+            logger.error("Cannot create item" + e);
         }
         return item;
     }
 
     @Override
     public Optional<Item> get(Long itemId) {
-        String query = "SELECT * FROM " + DB_NAME + ".items where item_id = " + itemId + ";";
+        String query = String.format("SELECT * FROM %s.items where item_id = %d;", DB_NAME, itemId);
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(query);
             Item item = getItem(rs);
             return Optional.of(item);
 
         } catch (SQLException e) {
-            logger.error("Can't get item by id " + itemId + "\n" + e);
+            logger.error("Can't get item by id " + itemId + e);
         }
 
         return Optional.empty();
@@ -54,40 +54,39 @@ public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
 
     @Override
     public Item update(Item item) {
-        String query = "UPDATE " + DB_NAME + ".items "
-                + "SET name = '" + item.getName()
-                + "', price = " + item.getPrice()
-                + " WHERE item_id = " + item.getItemId() + ";";
+        String query = String.format(
+                "UPDATE %s.items SET name = '%s', price = %f, WHERE item_id = %d;",
+                DB_NAME, item.getName(), item.getPrice(), item.getItemId());
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
         } catch (SQLException e) {
-            logger.error("Cannot update item\n" + e);
+            logger.error("Cannot update item" + e);
         }
         return item;
     }
 
     @Override
     public boolean deleteById(Long itemId) {
-        String query = "DELETE FROM " + DB_NAME + ".items "
-                + "WHERE item_id = " + itemId;
+        String query = String.format("DELETE FROM %s.items WHERE item_id = %d",
+                DB_NAME, itemId);
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot delete item\n" + e);
+            logger.error("Cannot delete item" + e);
         }
         return false;
     }
 
     @Override
     public boolean delete(Item item) {
-        String query = "DELETE FROM " + DB_NAME + ".items "
-                + "WHERE item_id = " + item.getItemId();
+        String query = String.format("DELETE FROM %s.items WHERE item_id = %d",
+                DB_NAME, item.getItemId());
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot delete item\n" + e);
+            logger.error("Cannot delete item" + e);
         }
         return false;
     }
@@ -95,7 +94,7 @@ public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
     @Override
     public List<Item> getAll() {
         List<Item> items = new ArrayList<>();
-        String query = "SELECT * FROM " + DB_NAME + ".items" + ";";
+        String query = String.format("SELECT * FROM %s.items;", DB_NAME);
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
@@ -103,7 +102,7 @@ public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
                 items.add(item);
             }
         } catch (SQLException e) {
-            logger.error("Can't get all items " + "\n" + e);
+            logger.error("Can't get all items " + e);
         }
         return items;
     }
