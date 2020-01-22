@@ -2,6 +2,7 @@ package mate.academy.internetshop.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,7 +29,8 @@ public class AddItemsController extends HttpServlet {
             throws IOException {
         Item item = new Item();
         item.setName(req.getParameter("name"));
-        item.setPrice(BigDecimal.valueOf(Long.parseLong(req.getParameter("price"))));
+        String price = req.getParameter("price").replaceAll(",", "");
+        item.setPrice(new BigDecimal(price));
         itemService.create(item);
         resp.sendRedirect(req.getContextPath() + "/servlet/addItems");
     }
