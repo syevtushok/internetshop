@@ -27,7 +27,7 @@
         </tr>
     </c:forEach>
 </table>
-<p><a href="index">Main page</a></p>
-<p><a href="servlet/completeOrder?bucket_id=${bucket.bucketId}">Complete order</a></p>
+<p><a href="${pageContext.request.contextPath}/index">Return to Main Page</a></p>
+<p><a href="completeOrder?bucket_id=${bucket.bucketId}">Complete order</a></p>
 </body>
 </html>

@@ -53,4 +53,9 @@ public class OrderDaoImp implements OrderDao {
     public List<Order> getAll() {
         return Storage.orders;
     }
+
+    @Override
+    public List<Order> getAllOrdersForUser(Long user) {
+        return null;
+    }
 }

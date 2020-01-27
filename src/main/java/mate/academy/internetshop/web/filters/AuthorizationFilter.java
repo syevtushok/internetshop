@@ -18,12 +18,17 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 public class AuthorizationFilter implements Filter {
+    private static Logger logger = LogManager.getLogger(AuthorizationFilter.class);
+
     @Inject
     private static UserService userService;
 
@@ -73,15 +78,19 @@ public class AuthorizationFilter implements Filter {
         if (token == null) {
             processUnAuthenticated(req, resp);
         } else {
-            Optional<User> user = userService.getByToken(token);
-            if (user.isPresent()) {
-                if (verifyRole(user.get(), roleName)) {
-                    processAuthenticated(chain, req, resp);
+            try {
+                Optional<User> user = userService.getByToken(token);
+                if (user.isPresent()) {
+                    if (verifyRole(user.get(), roleName)) {
+                        processAuthenticated(chain, req, resp);
+                    } else {
+                        processDenied(req, resp);
+                    }
                 } else {
-                    processDenied(req, resp);
+                    processUnAuthenticated(req, resp);
                 }
-            } else {
-                processUnAuthenticated(req, resp);
+            } catch (DataProcessingException e) {
+                logger.error(e);
             }
         }
 
@@ -90,16 +99,6 @@ public class AuthorizationFilter implements Filter {
     @Override
     public void destroy() {
 
-    }
-
-    private void processDenied(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/denied.jsp").forward(req, resp);
-    }
-
-    private boolean verifyRole(User user, Role.RoleName roleName) {
-        return user.getRoles().stream()
-                .anyMatch(role -> role.getRoleName().equals(roleName));
     }
 
     private void processUnAuthenticated(HttpServletRequest req, HttpServletResponse resp)
@@ -111,5 +110,15 @@ public class AuthorizationFilter implements Filter {
             FilterChain chain, HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         chain.doFilter(req, resp);
+    }
+
+    private boolean verifyRole(User user, Role.RoleName roleName) {
+        return user.getRoles().stream()
+                .anyMatch(role -> role.getRoleName().equals(roleName));
+    }
+
+    private void processDenied(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.getRequestDispatcher("/WEB-INF/views/denied.jsp").forward(req, resp);
     }
 }
