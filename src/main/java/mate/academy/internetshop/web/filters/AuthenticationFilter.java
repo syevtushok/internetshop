@@ -13,11 +13,17 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mate.academy.internetshop.controller.DeleteItemFromBucketController;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 public class AuthenticationFilter implements Filter {
+    private static Logger logger = LogManager.getLogger(DeleteItemFromBucketController.class);
+
     @Inject
     private static UserService userService;
 
@@ -37,10 +43,14 @@ public class AuthenticationFilter implements Filter {
         }
         for (Cookie cookie : req.getCookies()) {
             if (cookie.getName().equals("MATE")) {
-                Optional<User> user = userService.getByToken(cookie.getValue());
-                if (user.isPresent()) {
-                    chain.doFilter(request, response);
-                    return;
+                try {
+                    Optional<User> user = userService.getByToken(cookie.getValue());
+                    if (user.isPresent()) {
+                        chain.doFilter(request, response);
+                        return;
+                    }
+                } catch (DataProcessingException e) {
+                    logger.error(e);
                 }
             }
         }

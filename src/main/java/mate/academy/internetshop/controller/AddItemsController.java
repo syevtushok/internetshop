@@ -9,12 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.ItemService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 @WebServlet("/servlet/addItems")
 public class AddItemsController extends HttpServlet {
+    private static Logger logger = LogManager.getLogger(AddItemsController.class);
+
+
     @Inject
     private static ItemService itemService;
 
@@ -26,12 +32,18 @@ public class AddItemsController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
+            throws IOException, ServletException {
         Item item = new Item();
         item.setName(req.getParameter("name"));
-        String price = req.getParameter("price").replaceAll(",", "");
+        String price = req.getParameter("price");
         item.setPrice(new BigDecimal(price));
-        itemService.create(item);
+        try {
+            itemService.create(item);
+        } catch (DataProcessingException e) {
+            logger.error(e);
+            req.setAttribute("error_msg", e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
+        }
         resp.sendRedirect(req.getContextPath() + "/servlet/addItems");
     }
 }

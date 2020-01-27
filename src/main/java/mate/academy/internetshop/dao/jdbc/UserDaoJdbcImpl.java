@@ -12,10 +12,10 @@ import java.util.Optional;
 import java.util.Set;
 
 import mate.academy.internetshop.dao.UserDao;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
-import org.apache.log4j.Logger;
 
 @Dao
 public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
@@ -38,30 +38,27 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
                     + ", password = ?, token = ? WHERE id = ?;";
     public static final String DELETE_USER_BY_ID_QUERY = "DELETE FROM users WHERE id = ?";
     public static final String GET_ALL_USERS_QUERY = "SELECT * FROM users;";
-    private static Logger logger = Logger.getLogger(UserDaoJdbcImpl.class);
 
     public UserDaoJdbcImpl(Connection connection) {
         super(connection);
     }
 
     @Override
-    public Optional<User> findByLogin(String login) {
+    public Optional<User> findByLogin(String login) throws DataProcessingException {
         try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_QUERY)) {
             return getUser(login, statement);
         } catch (SQLException e) {
-            logger.error("Can't get user by login " + login, e);
+            throw new DataProcessingException("Can't get user by login " + login + e);
         }
-        return Optional.empty();
     }
 
     @Override
-    public Optional<User> findByToken(String token) {
+    public Optional<User> findByToken(String token) throws DataProcessingException {
         try (PreparedStatement statement = connection.prepareStatement(FIND_BY_TOKEN_QUERY)) {
             return getUser(token, statement);
         } catch (SQLException e) {
-            logger.error("Can't get user by token " + token, e);
+            throw new DataProcessingException("Can't get user by token " + token + e);
         }
-        return Optional.empty();
     }
 
     private Optional<User> getUser(String identification,
@@ -92,7 +89,7 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
     }
 
     @Override
-    public User create(User user) {
+    public User create(User user) throws DataProcessingException {
         try (PreparedStatement statement = connection.prepareStatement(CREATE_USER_QUERY,
                 Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getName());
@@ -107,13 +104,13 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
             }
             setRoleForUser(user.getId());
         } catch (SQLException e) {
-            logger.error("Cannot create user ", e);
+            throw new DataProcessingException("Cannot create user " + e);
         }
         return user;
     }
 
     @Override
-    public Optional<User> get(Long userId) {
+    public Optional<User> get(Long userId) throws DataProcessingException {
         try (PreparedStatement statement = connection.prepareStatement(GET_USER_QUERY)) {
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
@@ -123,13 +120,12 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
             }
             return Optional.of(user);
         } catch (SQLException e) {
-            logger.error("Can't get user by id " + userId, e);
+            throw new DataProcessingException("Can't get user by id " + userId + e);
         }
-        return Optional.empty();
     }
 
     @Override
-    public User update(User user) {
+    public User update(User user) throws DataProcessingException {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_USER_QUERY)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
@@ -139,30 +135,29 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
             statement.setLong(6, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Cannot update user with id" + user.getId(), e);
+            throw new DataProcessingException("Cannot update user with id" + user.getId() + e);
         }
         return user;
     }
 
     @Override
-    public boolean deleteById(Long userId) {
+    public boolean deleteById(Long userId) throws DataProcessingException {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_USER_BY_ID_QUERY)) {
             statement.setLong(1, userId);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot delete user with id " + userId, e);
+            throw new DataProcessingException("Cannot delete user with id " + userId + e);
         }
-        return false;
     }
 
     @Override
-    public boolean delete(User user) {
+    public boolean delete(User user) throws DataProcessingException {
         return deleteById(user.getId());
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> getAll() throws DataProcessingException {
         List<User> users = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(GET_ALL_USERS_QUERY)) {
             ResultSet resultSet = statement.executeQuery();
@@ -172,19 +167,18 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            logger.error("Can't get all users ", e);
+            throw new DataProcessingException("Can't get all users " + e);
         }
-        logger.info(users);
         return users;
     }
 
-    private void setRoleForUser(Long userId) {
+    private void setRoleForUser(Long userId) throws DataProcessingException {
         try (PreparedStatement statement = connection.prepareStatement(SET_ROLE_FOR_USER_QUERY)) {
             statement.setInt(1, DEFAULT_ROLE_USER);
             statement.setLong(2, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Can't insert role for user " + userId, e);
+            throw new DataProcessingException("Can't insert role for user " + userId + e);
         }
     }
 }

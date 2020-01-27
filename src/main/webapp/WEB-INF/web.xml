@@ -21,5 +21,4 @@
         <filter-name>authorization</filter-name>
         <url-pattern>/servlet/*</url-pattern>
     </filter-mapping>
-
 </web-app>
