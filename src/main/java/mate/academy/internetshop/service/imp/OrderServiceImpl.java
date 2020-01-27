@@ -16,6 +16,12 @@ public class OrderServiceImpl implements OrderService {
     private static OrderDao orderDao;
 
     @Override
+    public Order completeOrder(List<Item> items, User user) {
+        Order order = new Order(items, user.getId());
+        return create(order);
+    }
+
+    @Override
     public Order create(Order item) {
         return orderDao.create(item);
     }
@@ -38,11 +44,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean deleteById(Long id) {
         return orderDao.deleteById(id);
-    }
-
-    @Override
-    public Order completeOrder(List<Item> items, User user) {
-        return orderDao.completeOrder(items, user);
     }
 
     @Override

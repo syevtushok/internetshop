@@ -13,7 +13,6 @@ import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
-import mate.academy.internetshop.model.User;
 import org.apache.log4j.Logger;
 
 @Dao
@@ -30,12 +29,12 @@ public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
             + " WHERE orders.order_id = ?;";
     private static final String GET_ALL_ITEMS_QUERY =
             "SELECT items.item_id, items.name, items.price FROM items"
-            + " INNER JOIN orders_items ON items.item_id = orders_items.item_id"
-            + " WHERE orders_items.order_id = ?";
+                    + " INNER JOIN orders_items ON items.item_id = orders_items.item_id"
+                    + " WHERE orders_items.order_id = ?";
     private static final String GET_TOTAL_PRICE_FOR_ORDER =
             "SELECT SUM(items.price) AS price FROM items"
-            + " INNER JOIN orders_items ON items.item_id = orders_items.item_id"
-            + " WHERE orders_items.order_id = ?";
+                    + " INNER JOIN orders_items ON items.item_id = orders_items.item_id"
+                    + " WHERE orders_items.order_id = ?";
     private static Logger logger = Logger.getLogger(OrderDaoJdbcImpl.class);
 
     public OrderDaoJdbcImpl(Connection connection) {
@@ -53,7 +52,7 @@ public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
                 order.setOrderId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
-            logger.error("Cannot create order " + e);
+            logger.error("Cannot create order ", e);
         }
         addItemsToDb(order);
         return order;
@@ -74,7 +73,7 @@ public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
             getPriceForOrder(order);
             return Optional.of(order);
         } catch (SQLException e) {
-            logger.error("Cannot get order with order id " + orderId + e);
+            logger.error("Cannot get order with order id " + orderId, e);
         }
         return Optional.empty();
     }
@@ -86,7 +85,7 @@ public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
             statement.setLong(2, order.getUserId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Cannot update order with id " + order.getOrderId() + e);
+            logger.error("Cannot update order with id " + order.getOrderId(), e);
         }
         return order;
     }
@@ -98,7 +97,7 @@ public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot delete order with id " + orderId + e);
+            logger.error("Cannot delete order with id " + orderId, e);
         }
         return false;
     }
@@ -118,55 +117,9 @@ public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            logger.error("Cannot get all buckets");
+            logger.error("Cannot get all buckets", e);
         }
         return orders;
-    }
-
-    @Override
-    public List<Order> getAllOrdersForUser(Long userId) {
-        List<Order> orders = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_ORDERS_FOR_USER)) {
-            statement.setLong(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                orders.add(get(resultSet.getLong("order_id")).orElseThrow());
-            }
-        } catch (SQLException e) {
-            logger.error("Can't get orders for user with id = " + userId + e);
-        }
-        return orders;
-    }
-
-    @Override
-    public Order completeOrder(List<Item> items, User user) {
-        Order order = new Order(items, user.getId());
-        return create(order);
-    }
-
-    private void addItemsToDb(Order order) {
-        try (PreparedStatement statement = connection.prepareStatement(ADD_ITEMS_TO_DB)) {
-            statement.setLong(1, order.getOrderId());
-            for (Item item : order.getItems()) {
-                statement.setLong(2, item.getItemId());
-                statement.execute();
-            }
-        } catch (SQLException e) {
-            logger.error("Cannot add items from order with id " + order.getOrderId()
-                    + " to database " + e);
-        }
-    }
-
-    private void getPriceForOrder(Order order) {
-        try (PreparedStatement statement = connection.prepareStatement(GET_TOTAL_PRICE_FOR_ORDER)) {
-            statement.setLong(1, order.getOrderId());
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                order.setSumOfMoney(resultSet.getBigDecimal("price"));
-            }
-        } catch (SQLException e) {
-            logger.error("Cannot get price for bucket " + order.getOrderId() + e);
-        }
     }
 
     private List<Item> getAllItems(Long orderId) {
@@ -185,5 +138,45 @@ public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
             logger.error("Cannot get all items by order id " + orderId + e);
         }
         return items;
+    }
+
+    private void getPriceForOrder(Order order) {
+        try (PreparedStatement statement = connection.prepareStatement(GET_TOTAL_PRICE_FOR_ORDER)) {
+            statement.setLong(1, order.getOrderId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                order.setSumOfMoney(resultSet.getBigDecimal("price"));
+            }
+        } catch (SQLException e) {
+            logger.error("Cannot get price for order " + order.getOrderId(), e);
+        }
+    }
+
+    private void addItemsToDb(Order order) {
+        try (PreparedStatement statement = connection.prepareStatement(ADD_ITEMS_TO_DB)) {
+            statement.setLong(1, order.getOrderId());
+            for (Item item : order.getItems()) {
+                statement.setLong(2, item.getItemId());
+                statement.execute();
+            }
+        } catch (SQLException e) {
+            logger.error("Cannot add items from order with id " + order.getOrderId()
+                    + " to database ", e);
+        }
+    }
+
+    @Override
+    public List<Order> getAllOrdersForUser(Long userId) {
+        List<Order> orders = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_ORDERS_FOR_USER)) {
+            statement.setLong(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                orders.add(get(resultSet.getLong("order_id")).orElseThrow());
+            }
+        } catch (SQLException e) {
+            logger.error("Can't get orders for user with id = " + userId, e);
+        }
+        return orders;
     }
 }

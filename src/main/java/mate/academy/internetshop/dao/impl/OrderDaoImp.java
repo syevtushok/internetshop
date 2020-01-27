@@ -7,9 +7,7 @@ import java.util.Optional;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
-import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
-import mate.academy.internetshop.model.User;
 
 @Dao
 public class OrderDaoImp implements OrderDao {
@@ -58,11 +56,6 @@ public class OrderDaoImp implements OrderDao {
 
     @Override
     public List<Order> getAllOrdersForUser(Long user) {
-        return null;
-    }
-
-    @Override
-    public Order completeOrder(List<Item> items, User user) {
         return null;
     }
 }

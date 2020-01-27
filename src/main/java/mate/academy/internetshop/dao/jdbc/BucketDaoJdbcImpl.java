@@ -24,21 +24,21 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
             + " WHERE buckets.bucket_id = ?;";
     public static final String GET_ALL_ITEMS_QUERY =
             "SELECT items.item_id, items.name, items.price FROM items"
-            + " INNER JOIN bucket_items ON items.item_id = bucket_items.item_id"
-            + " WHERE bucket_items.bucket_id = ?";
+                    + " INNER JOIN bucket_items ON items.item_id = bucket_items.item_id"
+                    + " WHERE bucket_items.bucket_id = ?";
     public static final String GET_TOTAL_PRICE_FOR_BUCKET =
             "SELECT SUM(items.price) AS price FROM items"
-            + " INNER JOIN bucket_items ON items.item_id = bucket_items.item_id"
-            + " WHERE bucket_items.bucket_id = ?";
-    public static final String UPDATE_BUCKET_QUERY =
-            "UPDATE buckets SET user_id = ? WHERE bucket_id = ?;";
+                    + " INNER JOIN bucket_items ON items.item_id = bucket_items.item_id"
+                    + " WHERE bucket_items.bucket_id = ?";
     public static final String DELETE_BUCKET_BY_ID = "DELETE FROM buckets WHERE bucket_id = ?";
     public static final String ADD_ITEM_TO_BUCKET_QUERY =
             "INSERT INTO bucket_items (bucket_id, item_id) VALUES(?,?)";
     public static final String DELETE_ITEM_FROM_BUCKET_QUERY =
-            "DELETE FROM bucket_items WHERE bucket_id=? AND item_id=?;";
-    public static final String CLEAR_BUCKET_QUERY = "DELETE FROM bucket_items WHERE bucket_id=?;";
+            "DELETE FROM bucket_items WHERE bucket_id = ? AND item_id = ?;";
+    public static final String CLEAR_BUCKET_QUERY = "DELETE FROM bucket_items WHERE bucket_id = ?;";
     public static final String GET_ALL_BUCKETS_QUERY = "SELECT * FROM buckets";
+    public static final String DELETE_ITEMS_FROM_BUCKET_QUERY =
+            "DELETE FROM bucket_items WHERE bucket_id = ?";
     private static Logger logger = Logger.getLogger(BucketDaoJdbcImpl.class);
 
     public BucketDaoJdbcImpl(Connection connection) {
@@ -56,9 +56,9 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
                 bucket.setBucketId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
-            logger.error("Cannot create bucket " + e);
+            logger.error("Cannot create bucket ", e);
         }
-        return bucket;
+        return addItemsToBucket(bucket);
     }
 
     @Override
@@ -76,21 +76,26 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
             getPriceForBucket(bucket);
             return Optional.of(bucket);
         } catch (SQLException e) {
-            logger.error("Cannot get bucket with bucket id " + bucketId + e);
+            logger.error("Cannot get bucket with bucket id " + bucketId, e);
         }
         return Optional.empty();
     }
 
     @Override
     public Bucket update(Bucket bucket) {
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_BUCKET_QUERY)) {
-            statement.setLong(2, bucket.getUserId());
-            statement.setLong(3, bucket.getBucketId());
+        deleteItemsFromBucket(bucket.getBucketId());
+        addItemsToBucket(bucket);
+        return bucket;
+    }
+
+    private void deleteItemsFromBucket(Long bucketId) {
+        try (PreparedStatement statement =
+                     connection.prepareStatement(DELETE_ITEMS_FROM_BUCKET_QUERY)) {
+            statement.setLong(1, bucketId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Cannot update bucket with id " + bucket.getBucketId() + e);
+            logger.error("Cannot delete items from a bucket with id = " + bucketId, e);
         }
-        return bucket;
     }
 
     @Override
@@ -100,7 +105,7 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot delete bucket with id " + bucketId + e);
+            logger.error("Cannot delete a bucket with id " + bucketId, e);
         }
         return false;
     }
@@ -108,6 +113,20 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
     @Override
     public boolean delete(Bucket bucket) {
         return deleteById(bucket.getBucketId());
+    }
+
+    public Bucket addItemsToBucket(Bucket bucket) {
+        for (Item item : bucket.getItems()) {
+            try (PreparedStatement statement =
+                         connection.prepareStatement(ADD_ITEM_TO_BUCKET_QUERY)) {
+                statement.setLong(1, bucket.getBucketId());
+                statement.setLong(2, item.getItemId());
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                logger.error("Cannot add item to bucket with id " + bucket.getBucketId(), e);
+            }
+        }
+        return bucket;
     }
 
     @Override
@@ -119,20 +138,9 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
                 return get(resultSet.getLong("bucket_id"));
             }
         } catch (SQLException e) {
-            logger.error("Can't get bucket by user's id " + userId + e);
+            logger.error("Can't get bucket by user's id " + userId, e);
         }
         return Optional.empty();
-    }
-
-    @Override
-    public void addItem(Bucket bucket, Item item) {
-        try (PreparedStatement statement = connection.prepareStatement(ADD_ITEM_TO_BUCKET_QUERY)) {
-            statement.setLong(1, bucket.getBucketId());
-            statement.setLong(2, item.getItemId());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            logger.error("Cannot add item to bucket " + e);
-        }
     }
 
     @Override
@@ -144,7 +152,7 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error("Cannot delete item from bucket with id ="
-                    + bucket.getBucketId() + e);
+                    + bucket.getBucketId(), e);
         }
     }
 
@@ -154,7 +162,7 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
             statement.setLong(1, bucket.getBucketId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Cannot clear bucket with id = " + bucket.getBucketId());
+            logger.error("Cannot clear bucket with id = " + bucket.getBucketId(), e);
         }
     }
 
@@ -172,7 +180,7 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
                 items.add(item);
             }
         } catch (SQLException e) {
-            logger.error("Cannot get all items by bucketId " + bucketId + e);
+            logger.error("Cannot get all items by bucketId " + bucketId, e);
         }
         return items;
     }
@@ -201,7 +209,7 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
                 bucket.setPrice(resultSet.getBigDecimal("price"));
             }
         } catch (SQLException e) {
-            logger.error("Cannot get price for bucket " + bucket.getBucketId() + e);
+            logger.error("Cannot get price for bucket " + bucket.getBucketId(), e);
         }
     }
 }

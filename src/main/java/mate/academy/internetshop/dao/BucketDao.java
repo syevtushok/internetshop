@@ -9,8 +9,6 @@ import mate.academy.internetshop.model.Item;
 public interface BucketDao extends GenericDao<Bucket, Long> {
     Optional<Bucket> getByUserId(Long userId);
 
-    void addItem(Bucket bucket, Item item);
-
     void deleteItem(Bucket bucket, Item item);
 
     void clear(Bucket bucket);

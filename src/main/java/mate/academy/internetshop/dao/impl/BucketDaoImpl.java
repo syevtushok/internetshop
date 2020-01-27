@@ -55,11 +55,6 @@ public class BucketDaoImpl implements BucketDao {
     }
 
     @Override
-    public void addItem(Bucket bucket, Item item) {
-
-    }
-
-    @Override
     public void deleteItem(Bucket bucket, Item item) {
 
     }

@@ -40,7 +40,7 @@ public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
                 item.setItemId(resultSet.getLong(1));
             }
         } catch (SQLException e) {
-            logger.error("Cannot create item with name " + item.getName() + e);
+            logger.error("Cannot create item with name " + item.getName(), e);
         }
         return item;
     }
@@ -56,7 +56,7 @@ public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
             }
             return Optional.of(item);
         } catch (SQLException e) {
-            logger.error("Can't get item by id " + itemId + e);
+            logger.error("Can't get item by id " + itemId, e);
         }
         return Optional.empty();
     }
@@ -69,7 +69,7 @@ public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
             statement.setLong(3, item.getItemId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Cannot update item " + item + e);
+            logger.error("Cannot update item " + item, e);
         }
         return item;
     }
@@ -81,7 +81,7 @@ public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot delete item with id " + itemId + e);
+            logger.error("Cannot delete item with id " + itemId, e);
         }
         return false;
     }
@@ -101,7 +101,7 @@ public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
                 items.add(item);
             }
         } catch (SQLException e) {
-            logger.error("Can't get all items " + e);
+            logger.error("Can't get all items ", e);
         }
         return items;
     }
