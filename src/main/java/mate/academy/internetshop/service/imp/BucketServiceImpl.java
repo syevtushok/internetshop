@@ -41,26 +41,23 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public void addItem(Bucket bucket, Item item) {
-        Bucket newBucket = bucketDao.get(bucket.getBucketId()).orElseThrow();
-        newBucket.getItems().add(item);
-        bucketDao.update(newBucket);
+        bucketDao.addItem(bucket, item);
 
     }
 
     @Override
     public void deleteItem(Bucket bucket, Item item) {
-        bucket.getItems().remove(item);
+        bucketDao.deleteItem(bucket, item);
     }
 
     @Override
     public void clear(Bucket bucket) {
-        bucket.getItems().clear();
+        bucketDao.clear(bucket);
     }
 
     @Override
     public List<Item> getAllItems(Long bucketId) {
-        Bucket bucket = bucketDao.get(bucketId).orElseThrow();
-        return bucket.getItems();
+        return bucketDao.getAllItems(bucketId);
     }
 
     @Override

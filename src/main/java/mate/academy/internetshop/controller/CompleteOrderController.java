@@ -2,6 +2,7 @@ package mate.academy.internetshop.controller;
 
 import java.io.IOException;
 import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ public class CompleteOrderController extends HttpServlet {
         Bucket bucket = bucketService.getByUserId(userId);
         List<Item> items = bucket.getItems();
         orderService.completeOrder(items, user);
+        bucketService.clear(bucket);
         resp.sendRedirect(req.getContextPath() + "/servlet/orders");
     }
 }
