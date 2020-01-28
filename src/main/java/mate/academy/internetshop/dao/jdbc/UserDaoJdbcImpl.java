@@ -28,14 +28,14 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
             + " users.id = roles_users.user_id INNER JOIN roles ON"
             + " roles_users.role_id = roles.roles_id WHERE token = ?;";
     public static final String CREATE_USER_QUERY =
-            "INSERT INTO users (" + "name, surname, login, password, token) "
-                    + "VALUES(?, ?, ?, ?, ?);";
+            "INSERT INTO users (" + "name, surname, login, password, token, salt) "
+                    + "VALUES(?, ?, ?, ?, ?, ?);";
     public static final String SET_ROLE_FOR_USER_QUERY =
             "INSERT INTO roles_users (role_id, user_id) VALUES(?, ?)";
     public static final String GET_USER_QUERY = "SELECT * FROM users where id = ?;";
     public static final String UPDATE_USER_QUERY =
             "UPDATE users SET name = ?, surname = ?, login = ?"
-                    + ", password = ?, token = ? WHERE id = ?;";
+                    + ", password = ?, token = ?, salt = ? WHERE id = ?;";
     public static final String DELETE_USER_BY_ID_QUERY = "DELETE FROM users WHERE id = ?";
     public static final String GET_ALL_USERS_QUERY = "SELECT * FROM users;";
 
@@ -85,6 +85,7 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
         user.setLogin(resultSet.getString("login"));
         user.setPassword(resultSet.getString("password"));
         user.setToken(resultSet.getString("token"));
+        user.setSalt(resultSet.getBytes("salt"));
         return user;
     }
 
@@ -97,6 +98,7 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
             statement.setString(3, user.getLogin());
             statement.setString(4, user.getPassword());
             statement.setString(5, user.getToken());
+            statement.setBytes(6, user.getSalt());
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             while (generatedKeys.next()) {
@@ -133,6 +135,7 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
             statement.setString(4, user.getPassword());
             statement.setString(5, user.getToken());
             statement.setLong(6, user.getId());
+            statement.setBytes(7, user.getSalt());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DataProcessingException("Cannot update user with id" + user.getId() + e);
