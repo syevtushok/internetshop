@@ -10,7 +10,8 @@ import mate.academy.internetshop.model.User;
 public interface UserService extends GenericService<User, Long> {
     List<User> getAll() throws DataProcessingException;
 
-    User login(String login, String password) throws AuthenticationException, DataProcessingException;
+    User login(String login, String password) throws AuthenticationException,
+            DataProcessingException;
 
     Optional<User> getByToken(String token) throws DataProcessingException;
 }

@@ -24,7 +24,8 @@ public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
             "SELECT * FROM users INNER JOIN test.roles_users ON"
                     + " test.users.id = test.roles_users.user_id INNER JOIN test.roles ON"
                     + " test.roles_users.role_id = test.roles.roles_id WHERE login = ?;";
-    public static final String FIND_BY_TOKEN_QUERY = "SELECT * FROM users INNER JOIN roles_users ON"
+    public static final String FIND_BY_TOKEN_QUERY = "SELECT * FROM users INNER JOIN roles_users"
+            + " ON"
             + " users.id = roles_users.user_id INNER JOIN roles ON"
             + " roles_users.role_id = roles.roles_id WHERE token = ?;";
     public static final String CREATE_USER_QUERY =

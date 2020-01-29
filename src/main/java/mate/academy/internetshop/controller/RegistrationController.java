@@ -15,7 +15,6 @@ import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.UserService;
-import mate.academy.internetshop.util.HashUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -34,12 +33,12 @@ public class RegistrationController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,
+            ServletException {
         User user = new User();
-        user.setSalt(HashUtil.getSalt());
         user.setLogin(req.getParameter("login"));
         user.setName(req.getParameter("name"));
-        user.setPassword(HashUtil.hashPassword(req.getParameter("psw"), user.getSalt()));
+        user.setPassword(req.getParameter("psw"));
         user.setSurname(req.getParameter("surname"));
         user.addRole(Role.of("USER"));
         try {

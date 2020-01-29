@@ -31,7 +31,8 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
             "INSERT INTO bucket_items (bucket_id, item_id) VALUES(?,?)";
     public static final String DELETE_ITEM_FROM_BUCKET_QUERY =
             "DELETE FROM bucket_items WHERE bucket_id = ? AND item_id = ?;";
-    public static final String CLEAR_BUCKET_QUERY = "DELETE FROM bucket_items WHERE bucket_id = ?;";
+    public static final String CLEAR_BUCKET_QUERY = "DELETE FROM bucket_items WHERE bucket_id = "
+            + "?;";
     public static final String GET_ALL_BUCKETS_QUERY = "SELECT * FROM buckets";
     public static final String DELETE_ITEMS_FROM_BUCKET_QUERY =
             "DELETE FROM bucket_items WHERE bucket_id = ?";
@@ -87,7 +88,8 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
             statement.setLong(1, bucketId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataProcessingException("Cannot delete items from a bucket with id = " + bucketId + e);
+            throw new DataProcessingException("Cannot delete items from a bucket with id = "
+                    + bucketId + e);
         }
     }
 
@@ -115,7 +117,8 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
                 statement.setLong(2, item.getItemId());
                 statement.executeUpdate();
             } catch (SQLException e) {
-                throw new DataProcessingException("Cannot add item to bucket with id " + bucket.getBucketId() + e);
+                throw new DataProcessingException("Cannot add item to bucket with id "
+                        + bucket.getBucketId() + e);
             }
         }
         return bucket;
@@ -154,7 +157,8 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
             statement.setLong(1, bucket.getBucketId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataProcessingException("Cannot clear bucket with id = " + bucket.getBucketId() + e);
+            throw new DataProcessingException("Cannot clear bucket with id = "
+                    + bucket.getBucketId() + e);
         }
     }
 

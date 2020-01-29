@@ -22,7 +22,8 @@ public class DeleteUserController extends HttpServlet {
     private static UserService userService;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException,
+            ServletException {
         try {
             String userId = req.getParameter("user_id");
             userService.deleteById(Long.valueOf(userId));

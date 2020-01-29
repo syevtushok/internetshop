@@ -22,6 +22,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) throws DataProcessingException {
         user.setToken(getToken());
+        user.setSalt(HashUtil.getSalt());
+        user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
         return userDao.create(user);
     }
 
@@ -55,11 +57,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String login, String password) throws AuthenticationException, DataProcessingException {
+    public User login(String login, String password) throws AuthenticationException,
+            DataProcessingException {
         Optional<User> user = userDao.findByLogin(login);
         if (user.isEmpty()
                 || !(user.get().getPassword().equals(
-                        HashUtil.hashPassword(password, user.get().getSalt())))) {
+                HashUtil.hashPassword(password, user.get().getSalt())))) {
             throw new AuthenticationException("Incorrect login or password");
         }
         return user.orElseThrow();
