@@ -13,15 +13,16 @@ CREATE TABLE `items`
 CREATE TABLE `users`
 (
     `id`       int          NOT NULL AUTO_INCREMENT,
-    `name`     varchar(255) DEFAULT NULL,
-    `surname`  varchar(255) DEFAULT NULL,
+    `name`     varchar(255)  DEFAULT NULL,
+    `surname`  varchar(255)  DEFAULT NULL,
     `login`    varchar(255) NOT NULL,
     `password` varchar(255) NOT NULL,
-    `token`    varchar(255) DEFAULT NULL,
+    `token`    varchar(255)  DEFAULT NULL,
+    `salt`     varbinary(16) DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `login_UNIQUE` (`login`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 38
+  AUTO_INCREMENT = 41
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `roles`

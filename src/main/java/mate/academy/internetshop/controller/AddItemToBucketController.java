@@ -27,7 +27,8 @@ public class AddItemToBucketController extends HttpServlet {
     private static ItemService itemService;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
         Long userId = (Long) req.getSession(true).getAttribute("userId");
         Bucket bucket = null;
         try {

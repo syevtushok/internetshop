@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 public class AddItemsController extends HttpServlet {
     private static Logger logger = LogManager.getLogger(AddItemsController.class);
 
-
     @Inject
     private static ItemService itemService;
 

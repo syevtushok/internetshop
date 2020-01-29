@@ -78,7 +78,8 @@ public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
             statement.setLong(2, order.getUserId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataProcessingException("Cannot update order with id " + order.getOrderId() + e);
+            throw new DataProcessingException("Cannot update order with id "
+                    + order.getOrderId() + e);
         }
         return order;
     }
@@ -140,8 +141,8 @@ public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
                 statement.execute();
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Cannot add items from order with id " + order.getOrderId()
-                    + " to database " + e);
+            throw new DataProcessingException("Cannot add items from order with id "
+                    + order.getOrderId() + " to database " + e);
         }
     }
 

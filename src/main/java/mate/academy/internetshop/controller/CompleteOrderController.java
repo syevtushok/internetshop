@@ -31,7 +31,8 @@ public class CompleteOrderController extends HttpServlet {
     private static UserService userService;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
         try {
             Long userId = (Long) req.getSession(true).getAttribute("userId");
             User user = userService.get(userId);
