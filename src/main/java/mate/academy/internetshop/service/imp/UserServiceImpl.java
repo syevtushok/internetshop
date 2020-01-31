@@ -60,12 +60,13 @@ public class UserServiceImpl implements UserService {
     public User login(String login, String password) throws AuthenticationException,
             DataProcessingException {
         Optional<User> user = userDao.findByLogin(login);
-        if (user.isEmpty()
-                || !(user.get().getPassword().equals(
-                HashUtil.hashPassword(password, user.get().getSalt())))) {
-            throw new AuthenticationException("Incorrect login or password");
+        if (user.isPresent() && user.get().getId() != null) {
+            String hashPassword = HashUtil.hashPassword(password, user.get().getSalt());
+            if (hashPassword.equals(user.get().getPassword())) {
+                return user.get();
+            }
         }
-        return user.orElseThrow();
+        throw new AuthenticationException("Incorrect username or password");
     }
 
     @Override
