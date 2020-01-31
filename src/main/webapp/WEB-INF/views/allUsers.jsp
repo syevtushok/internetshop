@@ -42,8 +42,7 @@
                     </td>
                     <td>
                         <button type="button" class="btn btn-danger text-uppercase">
-                            <a href="${pageContext.request.contextPath}/servlet/deleteUser?user_id=${user.id}"></a>
-                            Delete User
+                            <a href="${pageContext.request.contextPath}/servlet/deleteUser?user_id=${user.id}">Delete User</a>
                         </button>
                     </td>
                 </tr>
