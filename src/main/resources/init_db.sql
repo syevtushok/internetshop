@@ -1,3 +1,4 @@
+# DATA DEFINITION LANGUAGE - MADE A TABLES
 CREATE SCHEMA `test` DEFAULT CHARACTER SET utf8;
 
 CREATE TABLE `items`
@@ -101,3 +102,31 @@ CREATE TABLE `bucket_items`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 43
   DEFAULT CHARSET = utf8;
+
+#DATA MANIPULATION LANGUAGE - FILL THE TABLES
+INSERT INTO `test`.`roles` (`role`)
+VALUES ('ADMIN');
+INSERT INTO `test`.`roles` (`role`)
+VALUES ('USER');
+INSERT INTO users (name, surname, login, password, token, salt)
+VALUES ('Petro', 'Boiko', 'user',
+        'a85df89b99cff6e0fa9611fc71ca20222122eaa02ebc75de197d5caac3f9970a279e41a5dd05f91a170dd89f974ac173ae08946a80bf52a2361b574443b4c2df',
+        '6690d170-e12a-47ee-a986-f9ff96965bbb', x'FE1E8819689F81E5AC6AA0D50D5AACF3');
+INSERT INTO users (name, surname, login, password, token, salt)
+VALUES ('Zakhar', 'Berkut', 'admin',
+        'b5f863747dff9a43101f5ae1933417bd6450962fec4041743cdec121520ba42688d8fd99d0aadd4d814267e4c1e3e3255a3823b75654be49a9c21a22dce48834',
+        '3b872c93-2fa7-4eef-a229-ab670bdd7fa0', x'F91E6D9975C0D430D2E3782C50C2AF52');
+INSERT INTO `test`.`items` (`name`, `price`)
+VALUES ('Think!', '500');
+INSERT INTO `test`.`items` (`name`, `price`)
+VALUES ('How to..', '349');
+INSERT INTO `test`.`items` (`name`, `price`)
+VALUES ('My name is', '230');
+INSERT INTO `test`.`roles_users` (`role_id`, `user_id`)
+VALUES ('4', '42');
+INSERT INTO `test`.`roles_users` (`role_id`, `user_id`)
+VALUES ('5', '44');
+INSERT INTO `test`.`buckets` (`user_id`)
+VALUES ('42');
+INSERT INTO `test`.`buckets` (`user_id`)
+VALUES ('44');

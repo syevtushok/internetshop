@@ -9,26 +9,17 @@
 <body>
 <div>${errorMsg}</div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-offset-5 col-md-3">
-            <div class="form-login">
-                <form action="${pageContext.request.contextPath}/login" method="post">
-                    <p>Please fill to sign in</p>
-                    <label for="login"><b>Login</b></label>
-                    <input type="text" placeholder="Enter login" name="login" id="login" required
-                           class="form-control input-sm chat-input">
-                    <label for="psw"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" id="psw" required
-                           class="form-control input-sm chat-input">
-                    <div class="wrapper">
-            <span class="group-btn">
-                <button type="submit" class="btn btn-primary btn-md">Sign In<i class="fa fa-sign-in"></i></button>
-            </span>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <form action="${pageContext.request.contextPath}/login" method="post">
+        <p>Please fill to sign in</p>
+        <label for="login" class=" mb-2 mr-sm-2"><b>Login</b></label>
+        <input type="text" placeholder="Enter login" name="login" id="login" required
+               class="form-control mb-2 mr-sm-2">
+        <label for="psw" class="mb-2 mr-sm-2"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" id="psw" required
+               class="form-control mb-2 mr-sm-2">
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
+</div>
 </div>
 </body>
 </html>
