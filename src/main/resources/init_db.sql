@@ -1,7 +1,7 @@
 # DATA DEFINITION LANGUAGE - MADE A TABLES
 CREATE SCHEMA `test` DEFAULT CHARACTER SET utf8;
 
-CREATE TABLE `items`
+CREATE TABLE `test`.`items`
 (
     `item_id` int            NOT NULL AUTO_INCREMENT,
     `name`    varchar(255)   NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE `items`
   AUTO_INCREMENT = 19
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `users`
+CREATE TABLE `test`.`users`
 (
     `id`       int          NOT NULL AUTO_INCREMENT,
     `name`     varchar(255)  DEFAULT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE `users`
   AUTO_INCREMENT = 41
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `roles`
+CREATE TABLE `test`.`roles`
 (
     `roles_id` int          NOT NULL AUTO_INCREMENT,
     `role`     varchar(255) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE `roles`
   AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `roles_users`
+CREATE TABLE `test`.`roles_users`
 (
     `roles_users_id` int NOT NULL AUTO_INCREMENT,
     `role_id`        int DEFAULT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE `roles_users`
   AUTO_INCREMENT = 20
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `orders`
+CREATE TABLE `test`.`orders`
 (
     `order_id` int NOT NULL AUTO_INCREMENT,
     `user_id`  int NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE `orders`
   AUTO_INCREMENT = 30
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `orders_items`
+CREATE TABLE `test`.`orders_items`
 (
     `orders_items_id` int NOT NULL AUTO_INCREMENT,
     `order_id`        int NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE `orders_items`
   AUTO_INCREMENT = 26
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `buckets`
+CREATE TABLE `test`.`buckets`
 (
     `bucket_id` int NOT NULL AUTO_INCREMENT,
     `user_id`   int NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE `buckets`
   AUTO_INCREMENT = 8
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `bucket_items`
+CREATE TABLE `test`.`bucket_items`
 (
     `bucket_items_id` int NOT NULL AUTO_INCREMENT,
     `bucket_id`       int NOT NULL,
@@ -108,11 +108,11 @@ INSERT INTO `test`.`roles` (`role`)
 VALUES ('ADMIN');
 INSERT INTO `test`.`roles` (`role`)
 VALUES ('USER');
-INSERT INTO users (name, surname, login, password, token, salt)
+INSERT INTO `test`.`users` (name, surname, login, password, token, salt)
 VALUES ('Petro', 'Boiko', 'user',
         'a85df89b99cff6e0fa9611fc71ca20222122eaa02ebc75de197d5caac3f9970a279e41a5dd05f91a170dd89f974ac173ae08946a80bf52a2361b574443b4c2df',
         '6690d170-e12a-47ee-a986-f9ff96965bbb', x'FE1E8819689F81E5AC6AA0D50D5AACF3');
-INSERT INTO users (name, surname, login, password, token, salt)
+INSERT INTO `test`.`users` (name, surname, login, password, token, salt)
 VALUES ('Zakhar', 'Berkut', 'admin',
         'b5f863747dff9a43101f5ae1933417bd6450962fec4041743cdec121520ba42688d8fd99d0aadd4d814267e4c1e3e3255a3823b75654be49a9c21a22dce48834',
         '3b872c93-2fa7-4eef-a229-ab670bdd7fa0', x'F91E6D9975C0D430D2E3782C50C2AF52');
@@ -123,10 +123,10 @@ VALUES ('How to..', '349');
 INSERT INTO `test`.`items` (`name`, `price`)
 VALUES ('My name is', '230');
 INSERT INTO `test`.`roles_users` (`role_id`, `user_id`)
-VALUES ('4', '42');
+VALUES ('4', '41');
 INSERT INTO `test`.`roles_users` (`role_id`, `user_id`)
-VALUES ('5', '44');
+VALUES ('3', '42');
+INSERT INTO `test`.`buckets` (`user_id`)
+VALUES ('41');
 INSERT INTO `test`.`buckets` (`user_id`)
 VALUES ('42');
-INSERT INTO `test`.`buckets` (`user_id`)
-VALUES ('44');

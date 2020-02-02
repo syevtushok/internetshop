@@ -19,7 +19,7 @@ import mate.academy.internetshop.model.User;
 
 @Dao
 public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
-    public static final int DEFAULT_ROLE_USER = 2;
+    public static final int DEFAULT_ROLE_USER = 4;
     public static final String FIND_BY_LOGIN_QUERY =
             "SELECT * FROM users INNER JOIN test.roles_users ON"
                     + " test.users.id = test.roles_users.user_id INNER JOIN test.roles ON"

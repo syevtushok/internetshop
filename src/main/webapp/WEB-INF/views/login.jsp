@@ -19,6 +19,7 @@
                class="form-control mb-2 mr-sm-2">
         <button type="submit" class="btn btn-primary mb-2">Submit</button>
     </form>
+    <p><a href="${pageContext.request.contextPath}/index">Return to Main Page</a></p>
 </div>
 </div>
 </body>

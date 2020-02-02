@@ -43,5 +43,5 @@ The technology used in this project:
 * Run init_db.sql from directory src/main/resources. This file creates tables for proper work java application.
 * At src.main.java.Factory class use username and password for your DB to create a Connection.
 * Change a path in src.main.java.resources.log4j.properties to properly write logs on the disc.
-* Run application and you see
+* Run application and you'll see
 <hr>

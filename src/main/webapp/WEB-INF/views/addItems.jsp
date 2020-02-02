@@ -19,8 +19,7 @@
         <input type="text" placeholder="Enter price of item" name="price" id="price" required>
         <button type="submit">Add item</button>
     </form>
-    <p><a href="/internetshop/allItems">All items</a></p>
-    <p><a href="/internetshop/index">Main page</a></p>
-</div>
+    <p><a href="${pageContext.request.contextPath}/allItems">Show all items</a></p>
+    <p><a href="${pageContext.request.contextPath}/index">Return to Main Page</a></p></div>
 </body>
 </html>

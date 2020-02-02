@@ -34,6 +34,7 @@
             <button type="submit">Register</button>
         </div>
     </form>
+    <p><a href="${pageContext.request.contextPath}/index">Return to Main Page</a></p>
 </div>
 </body>
 </html>

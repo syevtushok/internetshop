@@ -47,7 +47,7 @@
         </c:forEach>
     </table>
     <p><a href="servlet/bucket">Bucket</a></p>
-    <p><a href="index">Main page</a></p>
+    <p><a href="${pageContext.request.contextPath}/index">Return to Main Page</a></p>
 </div>
 </body>
 </html>
