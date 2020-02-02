@@ -1,4 +1,5 @@
-# DATA DEFINITION LANGUAGE - MADE A TABLES
+# DATA DEFINITION LANGUAGE - MADE TABLES
+DROP SCHEMA IF EXISTS `test`;
 CREATE SCHEMA `test` DEFAULT CHARACTER SET utf8;
 
 CREATE TABLE `test`.`items`
@@ -11,6 +12,7 @@ CREATE TABLE `test`.`items`
   AUTO_INCREMENT = 19
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS `test`.`users`;
 CREATE TABLE `test`.`users`
 (
     `id`       int          NOT NULL AUTO_INCREMENT,
@@ -26,6 +28,7 @@ CREATE TABLE `test`.`users`
   AUTO_INCREMENT = 41
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS `test`.`roles`;
 CREATE TABLE `test`.`roles`
 (
     `roles_id` int          NOT NULL AUTO_INCREMENT,
@@ -37,6 +40,7 @@ CREATE TABLE `test`.`roles`
   AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS `test`.`roles_users`;
 CREATE TABLE `test`.`roles_users`
 (
     `roles_users_id` int NOT NULL AUTO_INCREMENT,
@@ -52,6 +56,7 @@ CREATE TABLE `test`.`roles_users`
   AUTO_INCREMENT = 20
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS `test`.`orders`;
 CREATE TABLE `test`.`orders`
 (
     `order_id` int NOT NULL AUTO_INCREMENT,
@@ -63,6 +68,7 @@ CREATE TABLE `test`.`orders`
   AUTO_INCREMENT = 30
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS `test`.`orders_items`;
 CREATE TABLE `test`.`orders_items`
 (
     `orders_items_id` int NOT NULL AUTO_INCREMENT,
@@ -77,6 +83,7 @@ CREATE TABLE `test`.`orders_items`
   AUTO_INCREMENT = 26
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS `test`.`buckets`;
 CREATE TABLE `test`.`buckets`
 (
     `bucket_id` int NOT NULL AUTO_INCREMENT,
@@ -88,6 +95,7 @@ CREATE TABLE `test`.`buckets`
   AUTO_INCREMENT = 8
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS `test`.`bucket_items`;
 CREATE TABLE `test`.`bucket_items`
 (
     `bucket_items_id` int NOT NULL AUTO_INCREMENT,
@@ -103,7 +111,7 @@ CREATE TABLE `test`.`bucket_items`
   AUTO_INCREMENT = 43
   DEFAULT CHARSET = utf8;
 
-#DATA MANIPULATION LANGUAGE - FILL THE TABLES
+#DATA MANIPULATION LANGUAGE - FILL TABLES
 INSERT INTO `test`.`roles` (`role`)
 VALUES ('ADMIN');
 INSERT INTO `test`.`roles` (`role`)

@@ -11,6 +11,7 @@
 <body>
 <div class="container pt-4 bg-light text-uppercase">
     <h1>Hello!</h1>
+    <p><a href="inject">Click to create users</a></p>
     <p><a href="login">Sign In</a></p>
     <p><a href="register">Sign Up</a></p>
     <p><a href="servlet/addItems">Add items</a></p>
