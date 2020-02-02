@@ -59,12 +59,12 @@ public class InjectDataController extends HttpServlet {
         admin.setPassword("adm");
         try {
             userService.create(admin);
+            req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, resp);
         } catch (DataProcessingException e) {
             logger.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
         }
 
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }
 }
