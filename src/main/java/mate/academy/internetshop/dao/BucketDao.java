@@ -16,5 +16,4 @@ public interface BucketDao extends GenericDao<Bucket, Long> {
 
     List<Item> getAllItems(Long id) throws DataProcessingException;
 
-    List<Bucket> getAll() throws DataProcessingException;
 }

@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 @WebServlet("/servlet/orders")
 public class GetUserOrdersController extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(GetUserOrdersController.class);
+    private static final Logger LOGGER = LogManager.getLogger(GetUserOrdersController.class);
     @Inject
     private static OrderService orderService;
     @Inject
@@ -30,7 +30,7 @@ public class GetUserOrdersController extends HttpServlet {
             Long userId = (Long) req.getSession(true).getAttribute("userId");
             req.setAttribute("orders", orderService.getUserOrders(userService.get(userId)));
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
         }

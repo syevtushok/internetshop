@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 @WebServlet("/servlet/deleteUserOrder")
 public class DeleteUserOrderController extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(DeleteUserOrderController.class);
+    private static final Logger LOGGER = LogManager.getLogger(DeleteUserOrderController.class);
     @Inject
     private static OrderService orderService;
 
@@ -29,7 +29,7 @@ public class DeleteUserOrderController extends HttpServlet {
             Order order = orderService.get(Long.valueOf(orderId));
             orderService.delete(order);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
         }

@@ -1,17 +1,18 @@
 package mate.academy.internetshop.model;
 
-import mate.academy.internetshop.generatorid.RoleIdGenerator;
-
 public class Role {
-    private final Long id;
+    private Long id;
     private RoleName roleName;
 
-    public Role() {
-        this.id = RoleIdGenerator.getIdGenerator();
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Role(RoleName roleName) {
-        this();
+    public void setRoleName(RoleName roleName) {
+        this.roleName = roleName;
+    }
+
+    private Role(RoleName roleName) {
         this.roleName = roleName;
     }
 
@@ -21,10 +22,6 @@ public class Role {
 
     public RoleName getRoleName() {
         return roleName;
-    }
-
-    public void setRoleName(RoleName roleName) {
-        this.roleName = roleName;
     }
 
     public static Role of(String roleName) {

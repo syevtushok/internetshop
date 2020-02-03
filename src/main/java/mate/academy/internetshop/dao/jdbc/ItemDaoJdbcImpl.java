@@ -16,12 +16,12 @@ import mate.academy.internetshop.model.Item;
 
 @Dao
 public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
-    public static final String CREATE_ITEM_QUERY = "INSERT INTO items (name, price) VALUES(?, ?)";
-    public static final String GET_ITEM_QUERY = "SELECT * FROM items where item_id = ?;";
-    public static final String UPDATE_ITEM_QUERY =
+    private static final String CREATE_ITEM_QUERY = "INSERT INTO items (name, price) VALUES(?, ?)";
+    private static final String GET_ITEM_QUERY = "SELECT * FROM items where item_id = ?;";
+    private static final String UPDATE_ITEM_QUERY =
             "UPDATE items SET name = '?', price = ?, WHERE item_id = ?;";
-    public static final String DELETE_ITEM_BY_ID = "DELETE FROM items WHERE item_id = ?";
-    public static final String GET_ALL_ITEMS_QUERY = "SELECT * FROM items";
+    private static final String DELETE_ITEM_BY_ID = "DELETE FROM items WHERE item_id = ?";
+    private static final String GET_ALL_ITEMS_QUERY = "SELECT * FROM items";
 
     public ItemDaoJdbcImpl(Connection connection) {
         super(connection);

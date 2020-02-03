@@ -22,7 +22,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 public class AuthenticationFilter implements Filter {
-    private static Logger logger = LogManager.getLogger(DeleteItemFromBucketController.class);
+    private static final Logger LOGGER = LogManager.getLogger(DeleteItemFromBucketController.class);
 
     @Inject
     private static UserService userService;
@@ -50,7 +50,7 @@ public class AuthenticationFilter implements Filter {
                         return;
                     }
                 } catch (DataProcessingException e) {
-                    logger.error(e);
+                    LOGGER.error(e);
                 }
             }
         }

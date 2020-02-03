@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(LoginController.class);
+    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
     @Inject
     private static UserService userService;
 
@@ -46,7 +46,7 @@ public class LoginController extends HttpServlet {
             req.setAttribute("errorMsg", "Incorrect login or password");
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
         }

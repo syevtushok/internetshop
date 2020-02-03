@@ -7,19 +7,19 @@ Table of contents
 * [How to start](#start)
 
 #### <a name="what">What is it?</a> 
-This is a simple example of an internet shop implementation.
+This is simple online-store sample
 <hr>
 
 #### <a name="purpose">Purpose of it</a>
-<p id="purpose">Purpose of this project to demonstrate the skills of the applicant for the position Junior Java Developer.</p>
+<p id="purpose">Purpose of this project is to demonstrate the skills of the applicant for the position Java Developer.</p>
 <hr>
 
 #### <a name="purpose"></a>Project structure
 The project has a clear structure. It has models, service and dao layers.
 The project has two DAO implementation. The first implementation represents just work with Java Collection Framework. The second shows how java application interacts with a database.
 The project has controllers for management requests from users.
-Registration, login, and logout have full functionality. Users can add items to the basket, buy items and see a history of orders. Admin can create new items, delete them. 
-Also, the admin can see all users.  By helping filters, users cannot see pages for admin, and admin cannot see pages for users. 
+Registration, login, and logout have full functionality. Users can add items to the shopping cart, buy items and see a history of orders. Admin can create new items, delete them. 
+Also, the admin can see all users. Because of filters, users cannot see pages for admin, and admin cannot see pages for users. 
 <hr>
 
 #### <a name="techn"></a>Project structure
@@ -41,10 +41,10 @@ The technology used in this project:
     * add artifact internetshop:war exploded;
     * add Java SDK (prefer version 11 or higher)
 * Run init_db.sql from directory src/main/resources. This file creates tables for proper work java application.
-* At src.main.java.Factory class use username and password for your database to create a Connection.
-* Change a path in src.main.java.resources.log4j.properties to properly write logs on the disc.
+* At src/main/java/mate/academy/internetshop/factory/Factory.java class use username and password for your database to create a Connection.
+* Change a path in src/main/java/resources/log4j.properties to properly write logs on the disc.
 * Run application and you'll see
-* Note: after run init_db.sql you'll be have two users:
+* Note: there are two already registered users:
     * first user with login "user" and password "123" has role user
     * second user with login "admin" and password "321" has role admin
 <hr>

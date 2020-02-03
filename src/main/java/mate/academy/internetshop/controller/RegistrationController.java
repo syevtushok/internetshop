@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 
 @WebServlet("/register")
 public class RegistrationController extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(RegistrationController.class);
+    private static final Logger LOGGER = LogManager.getLogger(RegistrationController.class);
     @Inject
     private static UserService userService;
     @Inject
@@ -44,7 +44,7 @@ public class RegistrationController extends HttpServlet {
         try {
             userService.create(user);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
         }
@@ -54,7 +54,7 @@ public class RegistrationController extends HttpServlet {
         try {
             bucketService.create(bucket);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
         resp.sendRedirect(req.getContextPath() + "/index");
     }

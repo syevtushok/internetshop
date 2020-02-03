@@ -7,15 +7,20 @@ import java.util.Optional;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 
 @Dao
 public class UserDaoImp implements UserDao {
     private static Long generatedUserId = 0L;
+    private static Long generatedRoleId = 0L;
 
     @Override
     public User create(User user) {
         user.setUserId(generatedUserId++);
+        for (Role role : user.getRoles()) {
+            role.setId(generatedRoleId++);
+        }
         Storage.users.add(user);
         return user;
     }
@@ -35,7 +40,7 @@ public class UserDaoImp implements UserDao {
         updatedUser.setSurname(user.getSurname());
         updatedUser.setLogin(user.getLogin());
         updatedUser.setPassword(user.getPassword());
-        return null;
+        return user;
     }
 
     @Override

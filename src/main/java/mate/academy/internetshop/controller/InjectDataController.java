@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 
 @WebServlet("/inject")
 public class InjectDataController extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(InjectDataController.class);
+    private static final Logger LOGGER = LogManager.getLogger(InjectDataController.class);
     @Inject
     private static UserService userService;
     @Inject
@@ -49,7 +49,7 @@ public class InjectDataController extends HttpServlet {
             bucket.setUserId(user.getId());
             bucketService.create(bucket);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
 
         User admin = new User();
@@ -61,7 +61,7 @@ public class InjectDataController extends HttpServlet {
             userService.create(admin);
             req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, resp);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
         }

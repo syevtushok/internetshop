@@ -27,7 +27,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 public class AuthorizationFilter implements Filter {
-    private static Logger logger = LogManager.getLogger(AuthorizationFilter.class);
+    private static final Logger LOGGER = LogManager.getLogger(AuthorizationFilter.class);
 
     @Inject
     private static UserService userService;
@@ -90,7 +90,7 @@ public class AuthorizationFilter implements Filter {
                     processUnAuthenticated(req, resp);
                 }
             } catch (DataProcessingException e) {
-                logger.error(e);
+                LOGGER.error(e);
             }
         }
 
