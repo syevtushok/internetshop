@@ -109,6 +109,21 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
         return deleteById(bucket.getBucketId());
     }
 
+    @Override
+    public List<Bucket> getAll() throws DataProcessingException {
+        List<Bucket> buckets = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_BUCKETS_QUERY)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Bucket bucket = get(resultSet.getLong("bucket_id")).orElseThrow();
+                buckets.add(bucket);
+            }
+        } catch (SQLException e) {
+            throw new DataProcessingException("Cannot get all buckets");
+        }
+        return buckets;
+    }
+
     private Bucket addItemsToBucket(Bucket bucket) throws DataProcessingException {
         for (Item item : bucket.getItems()) {
             try (PreparedStatement statement =
@@ -162,8 +177,7 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
         }
     }
 
-    @Override
-    public List<Item> getAllItems(Long bucketId) throws DataProcessingException {
+    private List<Item> getAllItems(Long bucketId) throws DataProcessingException {
         List<Item> items = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(GET_ALL_ITEMS_QUERY)) {
             statement.setLong(1, bucketId);
@@ -179,20 +193,5 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
             throw new DataProcessingException("Cannot get all items by bucketId " + bucketId + e);
         }
         return items;
-    }
-
-    @Override
-    public List<Bucket> getAll() throws DataProcessingException {
-        List<Bucket> buckets = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_BUCKETS_QUERY)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Bucket bucket = get(resultSet.getLong("bucket_id")).orElseThrow();
-                buckets.add(bucket);
-            }
-        } catch (SQLException e) {
-            throw new DataProcessingException("Cannot get all buckets");
-        }
-        return buckets;
     }
 }

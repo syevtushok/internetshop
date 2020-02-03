@@ -58,11 +58,6 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public List<Item> getAllItems(Long bucketId) throws DataProcessingException {
-        return bucketDao.getAllItems(bucketId);
-    }
-
-    @Override
     public List<Bucket> getAll() throws DataProcessingException {
         return bucketDao.getAll();
     }
