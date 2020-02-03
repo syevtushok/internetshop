@@ -14,8 +14,5 @@ public interface BucketService extends GenericService<Bucket, Long> {
 
     void clear(Bucket bucket) throws DataProcessingException;
 
-    List<Item> getAllItems(Long id) throws DataProcessingException;
-
-
     Bucket getByUserId(Long userId) throws DataProcessingException;
 }
