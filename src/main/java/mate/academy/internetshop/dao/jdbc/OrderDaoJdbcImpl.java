@@ -16,7 +16,7 @@ import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
 
 @Dao
-public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
+public class OrderDaoJdbcImpl extends AbstractClass implements OrderDao {
     private static final String UPDATE_ORDER_QUERY =
             "UPDATE orders SET order_id = ?, WHERE user_id = ?";
     private static final String DELETE_FROM_ORDERS_BY_ID = "DELETE FROM orders WHERE order_id = ?";

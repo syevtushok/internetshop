@@ -10,5 +10,9 @@ import mate.academy.internetshop.model.User;
 public interface OrderService extends GenericService<Order, Long> {
     Order completeOrder(List<Item> items, User user) throws DataProcessingException;
 
+    boolean delete(Order order) throws DataProcessingException;
+
+    boolean deleteById(Long id) throws DataProcessingException;
+
     List<Order> getUserOrders(User user) throws DataProcessingException;
 }

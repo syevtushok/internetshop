@@ -15,7 +15,7 @@ import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Item;
 
 @Dao
-public class ItemDaoJdbcImpl extends AbstractClass<Item> implements ItemDao {
+public class ItemDaoJdbcImpl extends AbstractClass implements ItemDao {
     private static final String CREATE_ITEM_QUERY = "INSERT INTO items (name, price) VALUES(?, ?)";
     private static final String GET_ITEM_QUERY = "SELECT * FROM items where item_id = ?;";
     private static final String UPDATE_ITEM_QUERY =

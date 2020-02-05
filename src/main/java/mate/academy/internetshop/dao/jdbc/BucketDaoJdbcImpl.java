@@ -16,7 +16,7 @@ import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 
 @Dao
-public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDao {
+public class BucketDaoJdbcImpl extends AbstractClass implements BucketDao {
     private static final String CREATE_BUCKET_QUERY = "INSERT INTO buckets (user_id) VALUES(?)";
     private static final String GET_BUCKET_BY_USER_ID = "SELECT * FROM buckets"
             + " WHERE user_id = ?;";

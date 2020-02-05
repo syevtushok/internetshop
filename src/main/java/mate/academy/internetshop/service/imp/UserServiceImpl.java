@@ -38,13 +38,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(User user) throws DataProcessingException {
-        return userDao.delete(user);
-    }
-
-    @Override
-    public boolean deleteById(Long id) throws DataProcessingException {
-        return userDao.deleteById(id);
+    public List<User> getAll() throws DataProcessingException {
+        return userDao.getAll();
     }
 
     private String getToken() {
@@ -52,8 +47,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll() throws DataProcessingException {
-        return userDao.getAll();
+    public boolean delete(User user) throws DataProcessingException {
+        return userDao.delete(user);
+    }
+
+    @Override
+    public boolean deleteById(Long id) throws DataProcessingException {
+        return userDao.deleteById(id);
     }
 
     @Override
