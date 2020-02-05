@@ -18,26 +18,26 @@ import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 
 @Dao
-public class UserDaoJdbcImpl extends AbstractClass<User> implements UserDao {
-    public static final int DEFAULT_ROLE_USER = 2;
-    public static final String FIND_BY_LOGIN_QUERY =
+public class UserDaoJdbcImpl extends AbstractClass implements UserDao {
+    private static final int DEFAULT_ROLE_USER = 4;
+    private static final String FIND_BY_LOGIN_QUERY =
             "SELECT * FROM users INNER JOIN test.roles_users ON"
                     + " test.users.id = test.roles_users.user_id INNER JOIN test.roles ON"
                     + " test.roles_users.role_id = test.roles.roles_id WHERE login = ?;";
-    public static final String FIND_BY_TOKEN_QUERY = "SELECT * FROM users INNER JOIN roles_users"
+    private static final String FIND_BY_TOKEN_QUERY = "SELECT * FROM users INNER JOIN roles_users"
             + " ON users.id = roles_users.user_id INNER JOIN roles ON"
             + " roles_users.role_id = roles.roles_id WHERE token = ?;";
-    public static final String CREATE_USER_QUERY =
+    private static final String CREATE_USER_QUERY =
             "INSERT INTO users (" + "name, surname, login, password, token, salt) "
                     + "VALUES(?, ?, ?, ?, ?, ?);";
-    public static final String SET_ROLE_FOR_USER_QUERY =
+    private static final String SET_ROLE_FOR_USER_QUERY =
             "INSERT INTO roles_users (role_id, user_id) VALUES(?, ?)";
-    public static final String GET_USER_QUERY = "SELECT * FROM users where id = ?;";
-    public static final String UPDATE_USER_QUERY =
+    private static final String GET_USER_QUERY = "SELECT * FROM users where id = ?;";
+    private static final String UPDATE_USER_QUERY =
             "UPDATE users SET name = ?, surname = ?, login = ?"
                     + ", password = ?, token = ?, salt = ? WHERE id = ?;";
-    public static final String DELETE_USER_BY_ID_QUERY = "DELETE FROM users WHERE id = ?";
-    public static final String GET_ALL_USERS_QUERY = "SELECT * FROM users;";
+    private static final String DELETE_USER_BY_ID_QUERY = "DELETE FROM users WHERE id = ?";
+    private static final String GET_ALL_USERS_QUERY = "SELECT * FROM users;";
 
     public UserDaoJdbcImpl(Connection connection) {
         super(connection);

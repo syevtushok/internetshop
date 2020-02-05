@@ -18,23 +18,21 @@ import org.apache.log4j.Logger;
 
 @WebServlet("/allItems")
 public class GetAllItemsController extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(GetAllItemsController.class);
+    private static final Logger LOGGER = LogManager.getLogger(GetAllItemsController.class);
     @Inject
     private static ItemService itemService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
         try {
             List<Item> items = itemService.getAll();
             req.setAttribute("items", items);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
         }
-
         req.getRequestDispatcher("/WEB-INF/views/allItems.jsp").forward(req, resp);
     }
 }

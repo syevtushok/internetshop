@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 
 @WebServlet("/servlet/completeOrder")
 public class CompleteOrderController extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(CompleteOrderController.class);
+    private static final Logger LOGGER = LogManager.getLogger(CompleteOrderController.class);
     @Inject
     private static OrderService orderService;
     @Inject
@@ -41,7 +41,7 @@ public class CompleteOrderController extends HttpServlet {
             orderService.completeOrder(items, user);
             bucketService.clear(bucket);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
         }

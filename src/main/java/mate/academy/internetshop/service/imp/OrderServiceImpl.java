@@ -44,6 +44,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getAll() throws DataProcessingException {
+        return orderDao.getAll();
+    }
+
+    @Override
     public boolean delete(Order item) throws DataProcessingException {
         return orderDao.delete(item);
     }
@@ -56,10 +61,5 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getUserOrders(User user) throws DataProcessingException {
         return orderDao.getAllOrdersForUser(user.getId());
-    }
-
-    @Override
-    public List<Order> getAll() throws DataProcessingException {
-        return orderDao.getAll();
     }
 }

@@ -1,5 +1,7 @@
 package mate.academy.internetshop.service;
 
+import java.util.List;
+
 import mate.academy.internetshop.exceptions.DataProcessingException;
 
 public interface GenericService<T, N> {
@@ -9,7 +11,5 @@ public interface GenericService<T, N> {
 
     T update(T entity) throws DataProcessingException;
 
-    boolean delete(T entity) throws DataProcessingException;
-
-    boolean deleteById(N entityN) throws DataProcessingException;
+    List<T> getAll() throws DataProcessingException;
 }

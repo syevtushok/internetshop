@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 @WebServlet("/servlet/bucket")
 public class BucketController extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(BucketController.class);
+    private static final Logger LOGGER = LogManager.getLogger(BucketController.class);
 
     @Inject
     private static BucketService bucketService;
@@ -29,7 +29,7 @@ public class BucketController extends HttpServlet {
         try {
             bucket = bucketService.getByUserId(userId);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
         }

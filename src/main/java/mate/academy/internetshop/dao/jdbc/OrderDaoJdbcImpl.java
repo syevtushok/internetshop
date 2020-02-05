@@ -16,12 +16,12 @@ import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
 
 @Dao
-public class OrderDaoJdbcImpl extends AbstractClass<Order> implements OrderDao {
-    public static final String UPDATE_ORDER_QUERY =
+public class OrderDaoJdbcImpl extends AbstractClass implements OrderDao {
+    private static final String UPDATE_ORDER_QUERY =
             "UPDATE orders SET order_id = ?, WHERE user_id = ?";
-    public static final String DELETE_FROM_ORDERS_BY_ID = "DELETE FROM orders WHERE order_id = ?";
-    public static final String GET_ALL_ORDERS_QUERY = "SELECT * FROM orders";
-    public static final String GET_ALL_ORDERS_FOR_USER = "SELECT * FROM orders WHERE user_id = ?;";
+    private static final String DELETE_FROM_ORDERS_BY_ID = "DELETE FROM orders WHERE order_id = ?";
+    private static final String GET_ALL_ORDERS_QUERY = "SELECT * FROM orders";
+    private static final String GET_ALL_ORDERS_FOR_USER = "SELECT * FROM orders WHERE user_id = ?;";
     private static final String CREATE_ORDER_QUERY = "INSERT INTO orders (user_id) VALUES(?)";
     private static final String ADD_ITEMS_TO_DB =
             "INSERT INTO orders_items (order_id, item_id) values(?, ?)";

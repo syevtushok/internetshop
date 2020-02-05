@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 
 @WebServlet("/servlet/addItemToBucket")
 public class AddItemToBucketController extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(AddItemToBucketController.class);
+    private static final Logger LOGGER = LogManager.getLogger(AddItemToBucketController.class);
 
     @Inject
     private static BucketService bucketService;
@@ -30,14 +30,13 @@ public class AddItemToBucketController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         Long userId = (Long) req.getSession(true).getAttribute("userId");
-        Bucket bucket = null;
         try {
             String itemId = req.getParameter("item_id");
-            bucket = bucketService.getByUserId(userId);
+            Bucket bucket = bucketService.getByUserId(userId);
             Item item = itemService.get(Long.valueOf(itemId));
             bucketService.addItem(bucket, item);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
 

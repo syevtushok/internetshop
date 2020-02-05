@@ -38,6 +38,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAll() throws DataProcessingException {
+        return userDao.getAll();
+    }
+
+    private String getToken() {
+        return UUID.randomUUID().toString();
+    }
+
+    @Override
     public boolean delete(User user) throws DataProcessingException {
         return userDao.delete(user);
     }
@@ -47,25 +56,17 @@ public class UserServiceImpl implements UserService {
         return userDao.deleteById(id);
     }
 
-    private String getToken() {
-        return UUID.randomUUID().toString();
-    }
-
-    @Override
-    public List<User> getAll() throws DataProcessingException {
-        return userDao.getAll();
-    }
-
     @Override
     public User login(String login, String password) throws AuthenticationException,
             DataProcessingException {
         Optional<User> user = userDao.findByLogin(login);
-        if (user.isEmpty()
-                || !(user.get().getPassword().equals(
-                HashUtil.hashPassword(password, user.get().getSalt())))) {
-            throw new AuthenticationException("Incorrect login or password");
+        if (user.isPresent() && user.get().getId() != null) {
+            String hashPassword = HashUtil.hashPassword(password, user.get().getSalt());
+            if (hashPassword.equals(user.get().getPassword())) {
+                return user.get();
+            }
         }
-        return user.orElseThrow();
+        throw new AuthenticationException("Incorrect username or password");
     }
 
     @Override

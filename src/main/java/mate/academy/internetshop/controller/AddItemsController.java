@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 @WebServlet("/servlet/addItems")
 public class AddItemsController extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(AddItemsController.class);
+    private static final Logger LOGGER = LogManager.getLogger(AddItemsController.class);
 
     @Inject
     private static ItemService itemService;
@@ -39,7 +39,7 @@ public class AddItemsController extends HttpServlet {
         try {
             itemService.create(item);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("error_msg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbError.jsp").forward(req, resp);
         }

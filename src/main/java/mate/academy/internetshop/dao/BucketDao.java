@@ -1,6 +1,5 @@
 package mate.academy.internetshop.dao;
 
-import java.util.List;
 import java.util.Optional;
 
 import mate.academy.internetshop.exceptions.DataProcessingException;
@@ -13,8 +12,4 @@ public interface BucketDao extends GenericDao<Bucket, Long> {
     void deleteItem(Bucket bucket, Item item) throws DataProcessingException;
 
     void clear(Bucket bucket) throws DataProcessingException;
-
-    List<Item> getAllItems(Long id) throws DataProcessingException;
-
-    List<Bucket> getAll() throws DataProcessingException;
 }

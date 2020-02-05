@@ -48,6 +48,11 @@ public class BucketDaoImpl implements BucketDao {
     }
 
     @Override
+    public List<Bucket> getAll() {
+        return Storage.buckets;
+    }
+
+    @Override
     public Optional<Bucket> getByUserId(Long userId) {
         return Storage.buckets.stream()
                 .filter(bucket1 -> bucket1.getUserId().equals(userId))
@@ -62,15 +67,5 @@ public class BucketDaoImpl implements BucketDao {
     @Override
     public void clear(Bucket bucket) {
 
-    }
-
-    @Override
-    public List<Item> getAllItems(Long id) {
-        return null;
-    }
-
-    @Override
-    public List<Bucket> getAll() {
-        return Storage.buckets;
     }
 }

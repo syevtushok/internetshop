@@ -16,25 +16,25 @@ import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 
 @Dao
-public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDao {
-    public static final String CREATE_BUCKET_QUERY = "INSERT INTO buckets (user_id) VALUES(?)";
-    public static final String GET_BUCKET_BY_USER_ID = "SELECT * FROM buckets"
+public class BucketDaoJdbcImpl extends AbstractClass implements BucketDao {
+    private static final String CREATE_BUCKET_QUERY = "INSERT INTO buckets (user_id) VALUES(?)";
+    private static final String GET_BUCKET_BY_USER_ID = "SELECT * FROM buckets"
             + " WHERE user_id = ?;";
-    public static final String GET_BUCKET_BY_BUCKET_ID_QUERY = "SELECT * FROM buckets"
+    private static final String GET_BUCKET_BY_BUCKET_ID_QUERY = "SELECT * FROM buckets"
             + " WHERE buckets.bucket_id = ?;";
-    public static final String GET_ALL_ITEMS_QUERY =
+    private static final String GET_ALL_ITEMS_QUERY =
             "SELECT items.item_id, items.name, items.price FROM items"
                     + " INNER JOIN bucket_items ON items.item_id = bucket_items.item_id"
                     + " WHERE bucket_items.bucket_id = ?";
-    public static final String DELETE_BUCKET_BY_ID = "DELETE FROM buckets WHERE bucket_id = ?";
-    public static final String ADD_ITEM_TO_BUCKET_QUERY =
+    private static final String DELETE_BUCKET_BY_ID = "DELETE FROM buckets WHERE bucket_id = ?";
+    private static final String ADD_ITEM_TO_BUCKET_QUERY =
             "INSERT INTO bucket_items (bucket_id, item_id) VALUES(?,?)";
-    public static final String DELETE_ITEM_FROM_BUCKET_QUERY =
+    private static final String DELETE_ITEM_FROM_BUCKET_QUERY =
             "DELETE FROM bucket_items WHERE bucket_id = ? AND item_id = ?;";
-    public static final String CLEAR_BUCKET_QUERY = "DELETE FROM bucket_items WHERE bucket_id = "
+    private static final String CLEAR_BUCKET_QUERY = "DELETE FROM bucket_items WHERE bucket_id = "
             + "?;";
-    public static final String GET_ALL_BUCKETS_QUERY = "SELECT * FROM buckets";
-    public static final String DELETE_ITEMS_FROM_BUCKET_QUERY =
+    private static final String GET_ALL_BUCKETS_QUERY = "SELECT * FROM buckets";
+    private static final String DELETE_ITEMS_FROM_BUCKET_QUERY =
             "DELETE FROM bucket_items WHERE bucket_id = ?";
 
     public BucketDaoJdbcImpl(Connection connection) {
@@ -109,7 +109,22 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
         return deleteById(bucket.getBucketId());
     }
 
-    public Bucket addItemsToBucket(Bucket bucket) throws DataProcessingException {
+    @Override
+    public List<Bucket> getAll() throws DataProcessingException {
+        List<Bucket> buckets = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_BUCKETS_QUERY)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Bucket bucket = get(resultSet.getLong("bucket_id")).orElseThrow();
+                buckets.add(bucket);
+            }
+        } catch (SQLException e) {
+            throw new DataProcessingException("Cannot get all buckets");
+        }
+        return buckets;
+    }
+
+    private Bucket addItemsToBucket(Bucket bucket) throws DataProcessingException {
         for (Item item : bucket.getItems()) {
             try (PreparedStatement statement =
                          connection.prepareStatement(ADD_ITEM_TO_BUCKET_QUERY)) {
@@ -162,8 +177,7 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
         }
     }
 
-    @Override
-    public List<Item> getAllItems(Long bucketId) throws DataProcessingException {
+    private List<Item> getAllItems(Long bucketId) throws DataProcessingException {
         List<Item> items = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(GET_ALL_ITEMS_QUERY)) {
             statement.setLong(1, bucketId);
@@ -179,20 +193,5 @@ public class BucketDaoJdbcImpl extends AbstractClass<Bucket> implements BucketDa
             throw new DataProcessingException("Cannot get all items by bucketId " + bucketId + e);
         }
         return items;
-    }
-
-    @Override
-    public List<Bucket> getAll() throws DataProcessingException {
-        List<Bucket> buckets = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_BUCKETS_QUERY)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Bucket bucket = get(resultSet.getLong("bucket_id")).orElseThrow();
-                buckets.add(bucket);
-            }
-        } catch (SQLException e) {
-            throw new DataProcessingException("Cannot get all buckets");
-        }
-        return buckets;
     }
 }
